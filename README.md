@@ -1,3 +1,3 @@
-## Taxxo
+# Taxxo
 
-Tools for prokaryotes taxonogenomics
+Integrating and automatising tools for prokaryotes taxonogenomics.
