@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:13871cea56792998bed17d7a05dc7fe2b38e64eea6d9f0ff3e7255596fff4e41
-size 343
+Package: taxxo
+Title: Integrating and automatising tools for prokaryotes taxonogenomics
+Version: 0.0.0.9000
+Authors@R: person("Gregorio", "Iraola", email = "giraola@pasteur.edu.uy", role = c("aut", "cre"))
+Description: Tools for incorporating genomic information into prokaryotes taxonomy.
+Depends:
+    R (>= 3.3.1)
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 5.0.1
