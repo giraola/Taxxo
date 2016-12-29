@@ -1,8 +1,4 @@
-# Taxxo
-
-Integrating and automatising tools for prokaryotes taxonogenomics.
-
-# Updates
+## Updates
 
 **rrna()**
 - Fixed compatibility with OSX.
