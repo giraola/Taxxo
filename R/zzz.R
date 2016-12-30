@@ -1,24 +1,16 @@
 .onLoad<-function(...){
 		
 	# Dependencies
-	
-	print('Checking for dependencies...')
-	
+		
 	packages.needed<-c('msa','phangorn','seqinr','doMC','foreach','plyr')
 	packages.installed<-installed.packages()[,'Package']
 	
 	dif<-setdiff(packages.needed,packages.installed)
 	
-	if (length(dif)==0){
-		
-		print('  All dependencies are available')
-		
-	} else {
+	if (length(dif)>0){
 		
 		le<-length(dif)
-		
-		print(paste('  Installing',le,'packages'))
-		
+				
 		for (d in dif){
 			
 			install.packages(d)
@@ -26,8 +18,6 @@
 	}
 	
 	# External software
-
-	print('Setting up external dependencies...')
 	
 	os<-.getOS()
 
@@ -102,7 +92,5 @@
 		system(paste('chmod +x ',prodigal_darwin,'prodigal',sep=''),ignore.stdout=T)
 		system(paste('chmod +x ',barrnap_all,'common/bin/barrnap',sep=''),ignore.stdout=T)
 		system(paste('chmod +x ',barrnap_all,'common/binaries/darwin/nhmmer',sep=''),ignore.stdout=T)
-	}
-	
-	print('  External software checked')
+	}	
 }
