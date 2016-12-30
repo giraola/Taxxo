@@ -83,7 +83,7 @@
 		if (length(list_hmmer_darwin)>0){
 		
 			lhd<-gsub('//','/',list_hmmer_darwin)
-			system(paste('unzip ',lhd,' -d ',hmmer_darwin,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lhd,'* -d ',hmmer_darwin,sep=''),ignore.stdout=T)
 			system(paste('rm -rf ',hmmer_darwin,'*.zip',sep=''),ignore.stdout=T)
 		}
 		
@@ -92,7 +92,7 @@
 		if (length(list_blast_darwin)>0){
 		
 			lbd<-gsub('//','/',list_blast_darwin)
-			system(paste('unzip ',lbd,' -d ',blast_darwin,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbd,'* -d ',blast_darwin,sep=''),ignore.stdout=T)
 			system(paste('rm -rf ',blast_darwin,'*.zip',sep=''),ignore.stdout=T)
 		}
 		
