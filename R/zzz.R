@@ -94,7 +94,7 @@
 			
 			lpd<-gsub('//','/',list_barrnap_darwin)
 			system(paste('unzip ',lpd,' -d ',barrnap_all,sep=''),ignore.stdout=T)
-			system(paste('rm -rf ',lpd',sep=''),ignore.stdout=T)
+			system(paste('rm -rf ',lpd,sep=''),ignore.stdout=T)
 		}
 		
 		system(paste('chmod +x ',hmmer_darwin,'*',sep=''),ignore.stdout=T)
