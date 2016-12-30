@@ -1,4 +1,4 @@
-.onLoad<-function(){
+.onLoad<-function(libname,pkgname){
 		
 	# Dependencies
 	
