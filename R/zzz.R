@@ -37,22 +37,18 @@
 		blast_linux<-paste(system.file('blast',package='taxxo'),'/linux/',sep='')
 		prodigal_linux<-paste(system.file('prodigal',package='taxxo'),'/linux/',sep='')
 		barrnap_all<-paste(system.file('barrnap',package='taxxo'),'/',sep='')
-		
-		list_hmmer_linux<-list.files(hmmer_linux,pattern='.zip',full.names=T)
-	
-		if (length(list_hmmer_linux)>0){
-		
-			lhl<-gsub('//','/',list_hmmer_linux)
-			system(paste('unzip ',lhl,' -d ',hmmer_linux,sep=''),ignore.stdout=T)
-			system(paste('rm -rf ',hmmer_linux,'*.zip',sep=''),ignore.stdout=T)
-		}
-		
+					
 		list_blast_linux<-list.files(blast_linux,pattern='.zip',full.names=T)
 	
 		if (length(list_blast_linux)>0){
 		
 			lbl<-gsub('//','/',list_blast_linux)
-			system(paste('unzip ',lbl,' -d ',blast_linux,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbl,'blastp.zip -d ',blast_linux,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbl,'blastn.zip -d ',blast_linux,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbl,'tblastx.zip -d ',blast_linux,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbl,'makeblastdb.zip -d ',blast_linux,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbl,'blastdbcmd.zip -d ',blast_linux,sep=''),ignore.stdout=T)
+
 			system(paste('rm -rf ',blast_linux,'*.zip',sep=''),ignore.stdout=T)
 		}
 		
@@ -62,12 +58,12 @@
 			
 			lpl<-gsub('//','/',list_barranp_linux)
 			system(paste('unzip ',lpl,' -d ',barrnap_all,sep=''),ignore.stdout=T)
-			system(paste('rm -rf ',barrnap_all,'*.zip',sep=''),ignore.stdout=T)
+			system(paste('rm -rf ',lpl,sep=''),ignore.stdout=T)
 		}
 		
 		system(paste('chmod +x ',hmmer_linux,'*',sep=''),ignore.stdout=T)
 		system(paste('chmod +x ',blast_linux,'*',sep=''),ignore.stdout=T)
-		system(paste('chmod +x ',prodigal_linux,'prodigal'),ignore.stdout=T)
+		system(paste('chmod +x ',prodigal_linux,'prodigal',sep=''),ignore.stdout=T)
 		system(paste('chmod +x ',barrnap_all,'common/bin/barrnap',sep=''),ignore.stdout=T)
 		system(paste('chmod +x ',barrnap_all,'common/binaries/linux/nhmmer',sep=''),ignore.stdout=T)
 		
@@ -77,22 +73,18 @@
 		blast_darwin<-paste(system.file('blast',package='taxxo'),'/darwin/',sep='')
 		prodigal_darwin<-paste(system.file('prodigal',package='taxxo'),'/darwin/',sep='')
 		barrnap_all<-paste(system.file('barrnap',package='taxxo'),'/',sep='')
-		
-		list_hmmer_darwin<-list.files(hmmer_darwin,pattern='.zip',full.names=T)
-	
-		if (length(list_hmmer_darwin)>0){
-		
-			lhd<-gsub('//','/',list_hmmer_darwin)
-			system(paste('unzip ',lhd,'* -d ',hmmer_darwin,sep=''),ignore.stdout=T)
-			system(paste('rm -rf ',hmmer_darwin,'*.zip',sep=''),ignore.stdout=T)
-		}
-		
+
 		list_blast_darwin<-list.files(blast_darwin,pattern='.zip',full.names=T)
 	
 		if (length(list_blast_darwin)>0){
 		
 			lbd<-gsub('//','/',list_blast_darwin)
-			system(paste('unzip ',lbd,'* -d ',blast_darwin,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbd,'blastp.zip -d ',blast_darwin,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbd,'blastn.zip -d ',blast_darwin,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbd,'tblastx.zip -d ',blast_darwin,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbd,'makeblastdb.zip -d ',blast_darwin,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbd,'blastdbcmd.zip -d ',blast_darwin,sep=''),ignore.stdout=T)
+
 			system(paste('rm -rf ',blast_darwin,'*.zip',sep=''),ignore.stdout=T)
 		}
 		
@@ -102,12 +94,12 @@
 			
 			lpd<-gsub('//','/',list_barrnap_darwin)
 			system(paste('unzip ',lpd,' -d ',barrnap_all,sep=''),ignore.stdout=T)
-			system(paste('rm -rf ',barrnap_all,'*.zip',sep=''),ignore.stdout=T)
+			system(paste('rm -rf ',lpd',sep=''),ignore.stdout=T)
 		}
 		
 		system(paste('chmod +x ',hmmer_darwin,'*',sep=''),ignore.stdout=T)
 		system(paste('chmod +x ',blast_darwin,'*',sep=''),ignore.stdout=T)
-		system(paste('chmod +x ',prodigal_darwin,'prodigal'),ignore.stdout=T)
+		system(paste('chmod +x ',prodigal_darwin,'prodigal',sep=''),ignore.stdout=T)
 		system(paste('chmod +x ',barrnap_all,'common/bin/barrnap',sep=''),ignore.stdout=T)
 		system(paste('chmod +x ',barrnap_all,'common/binaries/darwin/nhmmer',sep=''),ignore.stdout=T)
 	}
