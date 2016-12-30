@@ -100,7 +100,7 @@
 		
 		if (length(list_barrnap_darwin)>0){
 			
-			lpd<-gsub('//','/',list_barranp_darwin)
+			lpd<-gsub('//','/',list_barrnap_darwin)
 			system(paste('unzip ',lpd,' -d ',barrnap_all,sep=''))
 			system(paste('rm -rf ',barrnap_all,'*.zip',sep=''))
 		}
