@@ -2,7 +2,7 @@
 		
 	# Dependencies
 	
-	print('[1] Checking for dependencies...')
+	print('Checking for dependencies...')
 	
 	packages.needed<-c('msa','phangorn','seqinr','doMC','foreach','plyr')
 	packages.installed<-installed.packages()[,'Package']
@@ -11,13 +11,13 @@
 	
 	if (length(dif)==0){
 		
-		print('   All dependencies available')
+		print('  All dependencies are available')
 		
 	} else {
 		
 		le<-length(dif)
 		
-		print(paste('   Installing',le,'packages'))
+		print(paste('  Installing',le,'packages'))
 		
 		for (d in dif){
 			
@@ -27,7 +27,7 @@
 	
 	# External software
 
-	print('[2] Setting up external dependencies...')
+	print('Setting up external dependencies...')
 	
 	os<-.getOS()
 
@@ -112,5 +112,5 @@
 		system(paste('chmod +x ',barrnap_all,'common/binaries/darwin/nhmmer',sep=''))
 	}
 	
-	print('   External software checked')
+	print('  External software checked')
 }	
