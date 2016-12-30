@@ -43,11 +43,11 @@
 		if (length(list_blast_linux)>0){
 		
 			lbl<-gsub('//','/',list_blast_linux)
-			system(paste('unzip ',lbl,'blastp.zip -d ',blast_linux,sep=''),ignore.stdout=T)
-			system(paste('unzip ',lbl,'blastn.zip -d ',blast_linux,sep=''),ignore.stdout=T)
-			system(paste('unzip ',lbl,'tblastx.zip -d ',blast_linux,sep=''),ignore.stdout=T)
-			system(paste('unzip ',lbl,'makeblastdb.zip -d ',blast_linux,sep=''),ignore.stdout=T)
-			system(paste('unzip ',lbl,'blastdbcmd.zip -d ',blast_linux,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbl,' blastp.zip -d ',blast_linux,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbl,' blastn.zip -d ',blast_linux,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbl,' tblastx.zip -d ',blast_linux,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbl,' makeblastdb.zip -d ',blast_linux,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbl,' blastdbcmd.zip -d ',blast_linux,sep=''),ignore.stdout=T)
 
 			system(paste('rm -rf ',blast_linux,'*.zip',sep=''),ignore.stdout=T)
 		}
@@ -79,11 +79,11 @@
 		if (length(list_blast_darwin)>0){
 		
 			lbd<-gsub('//','/',list_blast_darwin)
-			system(paste('unzip ',lbd,'blastp.zip -d ',blast_darwin,sep=''),ignore.stdout=T)
-			system(paste('unzip ',lbd,'blastn.zip -d ',blast_darwin,sep=''),ignore.stdout=T)
-			system(paste('unzip ',lbd,'tblastx.zip -d ',blast_darwin,sep=''),ignore.stdout=T)
-			system(paste('unzip ',lbd,'makeblastdb.zip -d ',blast_darwin,sep=''),ignore.stdout=T)
-			system(paste('unzip ',lbd,'blastdbcmd.zip -d ',blast_darwin,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbd,' blastp.zip -d ',blast_darwin,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbd,' blastn.zip -d ',blast_darwin,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbd,' tblastx.zip -d ',blast_darwin,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbd,' makeblastdb.zip -d ',blast_darwin,sep=''),ignore.stdout=T)
+			system(paste('unzip ',lbd,' blastdbcmd.zip -d ',blast_darwin,sep=''),ignore.stdout=T)
 
 			system(paste('rm -rf ',blast_darwin,'*.zip',sep=''),ignore.stdout=T)
 		}
