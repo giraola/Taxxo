@@ -43,8 +43,8 @@
 		if (length(list_hmmer_linux)>0){
 		
 			lhl<-gsub('//','/',list_hmmer_linux)
-			system(paste('unzip ',lhl,' -d ',hmmer_linux,sep=''))
-			system(paste('rm -rf ',hmmer_linux,'*.zip',sep=''))
+			system(paste('unzip ',lhl,' -d ',hmmer_linux,sep=''),ignore.stdout=T)
+			system(paste('rm -rf ',hmmer_linux,'*.zip',sep=''),ignore.stdout=T)
 		}
 		
 		list_blast_linux<-list.files(blast_linux,pattern='.zip',full.names=T)
@@ -52,8 +52,8 @@
 		if (length(list_blast_linux)>0){
 		
 			lbl<-gsub('//','/',list_blast_linux)
-			system(paste('unzip ',lbl,' -d ',blast_linux,sep=''))
-			system(paste('rm -rf ',blast_linux,'*.zip',sep=''))
+			system(paste('unzip ',lbl,' -d ',blast_linux,sep=''),ignore.stdout=T)
+			system(paste('rm -rf ',blast_linux,'*.zip',sep=''),ignore.stdout=T)
 		}
 		
 		list_barrnap_linux<-list.files(barrnap_all,pattern='.zip',full.names=T)
@@ -61,15 +61,15 @@
 		if (length(list_barrnap_linux)>0){
 			
 			lpl<-gsub('//','/',list_barranp_linux)
-			system(paste('unzip ',lpl,' -d ',barrnap_all,sep=''))
-			system(paste('rm -rf ',barrnap_all,'*.zip',sep=''))
+			system(paste('unzip ',lpl,' -d ',barrnap_all,sep=''),ignore.stdout=T)
+			system(paste('rm -rf ',barrnap_all,'*.zip',sep=''),ignore.stdout=T)
 		}
 		
-		system(paste('chmod +x ',hmmer_linux,'*',sep=''))
-		system(paste('chmod +x ',blast_linux,'*',sep=''))
-		system(paste('chmod +x ',prodigal_linux,'prodigal'))
-		system(paste('chmod +x ',barrnap_all,'common/bin/barrnap',sep=''))
-		system(paste('chmod +x ',barrnap_all,'common/binaries/linux/nhmmer',sep=''))
+		system(paste('chmod +x ',hmmer_linux,'*',sep=''),ignore.stdout=T)
+		system(paste('chmod +x ',blast_linux,'*',sep=''),ignore.stdout=T)
+		system(paste('chmod +x ',prodigal_linux,'prodigal'),ignore.stdout=T)
+		system(paste('chmod +x ',barrnap_all,'common/bin/barrnap',sep=''),ignore.stdout=T)
+		system(paste('chmod +x ',barrnap_all,'common/binaries/linux/nhmmer',sep=''),ignore.stdout=T)
 		
 	} else if (os=='darwin'){
 	
@@ -83,8 +83,8 @@
 		if (length(list_hmmer_darwin)>0){
 		
 			lhd<-gsub('//','/',list_hmmer_darwin)
-			system(paste('unzip ',lhd,' -d ',hmmer_darwin,sep=''))
-			system(paste('rm -rf ',hmmer_darwin,'*.zip',sep=''))
+			system(paste('unzip ',lhd,' -d ',hmmer_darwin,sep=''),ignore.stdout=T)
+			system(paste('rm -rf ',hmmer_darwin,'*.zip',sep=''),ignore.stdout=T)
 		}
 		
 		list_blast_darwin<-list.files(blast_darwin,pattern='.zip',full.names=T)
@@ -92,8 +92,8 @@
 		if (length(list_blast_darwin)>0){
 		
 			lbd<-gsub('//','/',list_blast_darwin)
-			system(paste('unzip ',lbd,' -d ',blast_darwin,sep=''))
-			system(paste('rm -rf ',blast_darwin,'*.zip',sep=''))
+			system(paste('unzip ',lbd,' -d ',blast_darwin,sep=''),ignore.stdout=T)
+			system(paste('rm -rf ',blast_darwin,'*.zip',sep=''),ignore.stdout=T)
 		}
 		
 		list_barrnap_darwin<-list.files(barrnap_all,pattern='.zip',full.names=T)
@@ -101,15 +101,15 @@
 		if (length(list_barrnap_darwin)>0){
 			
 			lpd<-gsub('//','/',list_barrnap_darwin)
-			system(paste('unzip ',lpd,' -d ',barrnap_all,sep=''))
-			system(paste('rm -rf ',barrnap_all,'*.zip',sep=''))
+			system(paste('unzip ',lpd,' -d ',barrnap_all,sep=''),ignore.stdout=T)
+			system(paste('rm -rf ',barrnap_all,'*.zip',sep=''),ignore.stdout=T)
 		}
 		
-		system(paste('chmod +x ',hmmer_darwin,'*',sep=''))
-		system(paste('chmod +x ',blast_darwin,'*',sep=''))
-		system(paste('chmod +x ',prodigal_darwin,'prodigal'))
-		system(paste('chmod +x ',barrnap_all,'common/bin/barrnap',sep=''))
-		system(paste('chmod +x ',barrnap_all,'common/binaries/darwin/nhmmer',sep=''))
+		system(paste('chmod +x ',hmmer_darwin,'*',sep=''),ignore.stdout=T)
+		system(paste('chmod +x ',blast_darwin,'*',sep=''),ignore.stdout=T)
+		system(paste('chmod +x ',prodigal_darwin,'prodigal'),ignore.stdout=T)
+		system(paste('chmod +x ',barrnap_all,'common/bin/barrnap',sep=''),ignore.stdout=T)
+		system(paste('chmod +x ',barrnap_all,'common/binaries/darwin/nhmmer',sep=''),ignore.stdout=T)
 	}
 	
 	print('  External software checked')
