@@ -199,7 +199,7 @@ uprot<-function(pattern='.faa',
 				
 			if (is.na(prot)==F){
 					
-				cmd<-paste(bldbcd,' -entry ',prot,' -db uprotdb ',genoms[p],' >> ',outfile,sep='')
+				cmd<-paste(bldbcd,' -entry ',prot,' -db uprotdb >> ',outfile,sep='')
 					
 				system(cmd)
 					
