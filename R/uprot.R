@@ -221,7 +221,7 @@ uprot<-function(pattern='.faa',
  			
  		out<-gsub('.faa','.ali',m)
  		
- 		aux<-
+ 		aux<-capture.output(
 		alignment<-msa(inputSeqs=m,method='ClustalOmega',type='protein'))
 		aliconver<-msaConvert(alignment,type='seqinr::alignment')
 			
