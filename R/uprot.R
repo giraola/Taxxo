@@ -70,8 +70,6 @@ uprot<-function(pattern='.faa',
 	
 	# Find proteins
 	
-	system(paste('mkdir',outdir))
-	
 	result<-matrix(ncol=length(hmms),nrow=length(flist),NA)
 	colnames(result)<-gsub('.hmm','',hmm2)
 	rownames(result)<-gsub(pattern,'',fnams)
@@ -166,7 +164,7 @@ uprot<-function(pattern='.faa',
  		dn<-gsub(pattern,'',fnams[f])
  			
  		cmd<-paste(mkbldb,
- 				   ' -in ',flist[f],
+ 				   ' -in ../',flist[f],
  				   ' -dbtype prot -hash_index -parse_seqids -title ',
  				   dn,' -out ',dn,sep='')
  					   
