@@ -148,30 +148,39 @@ uprot<-function(pattern='.faa',
 	}
   			
   	system(paste('mkdir',outdir))
-  	setwd(outdir)
+  	#setwd(outdir)
   			
-  	presence_absence_uprot<-result
-  			
+  	presence_absence_uprot<-result		
   	save(presence_absence_uprot,file='presence_absence_uprot.Rdata')				
- 		
+ 	system(paste('mv presence_absence_uprot.Rdata',outdir),ignore.stdout=T)
+	
  	# Make databases
- 		 		
- 	system('mkdir databases')		
- 	setwd('databases')
+ 	
+	cmd2<-paste('cat ',paste(flist,collapse=' '),' > all_genomes_uprot.faa',sep='')
+	system(cmd2,ignore.stdout=T)
+	
+	cmd3<-paste(mkbldb,
+		    ' -in all_genomes_uprot.faa',
+		    ' -dbtype prot -hash_index -parse_seqids -title',
+		    ' uprotdb -out uprotdb',sep='')
+	system(cmd3,ignore.stdout=T)
+	
+ 	#system('mkdir databases')		
+ 	#setwd('databases')
  		
- 	for (f in 1:length(flist)){
+ 	#for (f in 1:length(flist)){
  		
- 		dn<-gsub(pattern,'',fnams[f])
+ 	#	dn<-gsub(pattern,'',fnams[f])
  			
- 		cmd<-paste(mkbldb,
- 				   ' -in ../.',flist[f],
- 				   ' -dbtype prot -hash_index -parse_seqids -title ',
- 				   dn,' -out ',dn,sep='')
+ 	#	cmd<-paste(mkbldb,
+ 	#			   ' -in ../.',flist[f],
+ 	#			   ' -dbtype prot -hash_index -parse_seqids -title ',
+ 	#			   dn,' -out ',dn,sep='')
  					   
-		system(cmd,ignore.stderr=T,ignore.stdout=T)
- 	}
+	#	system(cmd,ignore.stderr=T,ignore.stdout=T)
+ 	#}
  		
- 	setwd('../')
+ 	#setwd('../')
  		 		
  	# Extract sequences
  		 		
@@ -190,7 +199,7 @@ uprot<-function(pattern='.faa',
 				
 			if (is.na(prot)==F){
 					
-				cmd<-paste(bldbcd,' -entry ',prot,' -db ./databases/',genoms[p],' >> ',outfile,sep='')
+				cmd<-paste(bldbcd,' -entry ',prot,' -db uprotdb',genoms[p],' >> ',outfile,sep='')
 					
 				system(cmd)
 					
@@ -242,5 +251,10 @@ uprot<-function(pattern='.faa',
  		write.fasta(catlis,names=nams,file='universal_proteins.ali')
  	}
  	
+	system(paste('mv *uprot.faa',outdir))
+	system(paste('mv *uprot.ali',outdir))
+	system(paste('mv universal_proteins.ali',outdir))
+	system('rm -rf uprotdb*')
+	
  	setwd(gw)
 }
