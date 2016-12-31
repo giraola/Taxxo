@@ -166,23 +166,6 @@ uprot<-function(pattern='.faa',
 	system(cmd3,ignore.stdout=T)
 	system('rm -rf all_genomes_uprot.faa')
 	
- 	#system('mkdir databases')		
- 	#setwd('databases')
- 		
- 	#for (f in 1:length(flist)){
- 		
- 	#	dn<-gsub(pattern,'',fnams[f])
- 			
- 	#	cmd<-paste(mkbldb,
- 	#			   ' -in ../.',flist[f],
- 	#			   ' -dbtype prot -hash_index -parse_seqids -title ',
- 	#			   dn,' -out ',dn,sep='')
- 					   
-	#	system(cmd,ignore.stderr=T,ignore.stdout=T)
- 	#}
- 		
- 	#setwd('../')
- 		 		
  	# Extract sequences
  		 		
  	uprots<-colnames(presence_absence_uprot)
