@@ -164,7 +164,7 @@ uprot<-function(pattern='.faa',
  		dn<-gsub(pattern,'',fnams[f])
  			
  		cmd<-paste(mkbldb,
- 				   ' -in ../',flist[f],
+ 				   ' -in ../.',flist[f],
  				   ' -dbtype prot -hash_index -parse_seqids -title ',
  				   dn,' -out ',dn,sep='')
  					   
