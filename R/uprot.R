@@ -164,6 +164,7 @@ uprot<-function(pattern='.faa',
 		    ' -dbtype prot -hash_index -parse_seqids -title',
 		    ' uprotdb -out uprotdb',sep='')
 	system(cmd3,ignore.stdout=T)
+	system('rm -rf all_genomes_uprot.faa')
 	
  	#system('mkdir databases')		
  	#setwd('databases')
