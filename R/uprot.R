@@ -157,7 +157,7 @@ uprot<-function(pattern='.faa',
  	# Make databases
  	
 	cmd2<-paste('cat ',paste(flist,collapse=' '),' > all_genomes_uprot.faa',sep='')
-	system(cmd2,ignore.stdout=T)
+	system(cmd2)
 	
 	cmd3<-paste(mkbldb,
 		    ' -in all_genomes_uprot.faa',
