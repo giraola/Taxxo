@@ -13,6 +13,8 @@
 uprot<-function(pattern='.faa',
 			    path='.',
 			    outdir='uprot_output',
+			    align=TRUE,
+			    phylogeny=TRUE,
 			    proc=2)
 			   
 			    {
@@ -198,48 +200,64 @@ uprot<-function(pattern='.faa',
 	}
  		
 	# Align sequences
+	
+	if (align==TRUE){
  		
- 	multi<-list.files(pattern='.uprot.faa')
+ 		multi<-list.files(pattern='.uprot.faa')
  		
- 	for (m in multi){
+ 		for (m in multi){
  			
- 		out<-gsub('.faa','.ali',m)
+ 			out<-gsub('.faa','.ali',m)
  		
- 		aux<-capture.output(
-		alignment<-msa(inputSeqs=m,method='ClustalOmega',type='protein'))
-		aliconver<-msaConvert(alignment,type='seqinr::alignment')
+ 			aux<-capture.output(
+			alignment<-msa(inputSeqs=m,method='ClustalOmega',type='protein'))
+			aliconver<-msaConvert(alignment,type='seqinr::alignment')
 			
-		seqs<-lapply(aliconver$seq,s2c)
-		nams<-gsub(' ','',gsub('>','',system(paste("grep '>' ",m,sep=''),intern=T)))
+			seqs<-lapply(aliconver$seq,s2c)
+			nams<-gsub(' ','',gsub('>','',system(paste("grep '>' ",m,sep=''),intern=T)))
 				
-		write.fasta(seqs,names=nams,file=out)
-	}
+			write.fasta(seqs,names=nams,file=out)
+		}
  		
- 	# Concatenate alignment
+ 		# Concatenate alignment
  		
- 	alis<-list.files(pattern='.uprot.ali')
+ 		alis<-list.files(pattern='.uprot.ali')
  		
- 	catmat<-NULL
+ 		catmat<-NULL
  		
- 	for (a in alis){
+ 		for (a in alis){
  			
-		fasta<-read.fasta(a)
- 		sequs<-lapply(getSequence(fasta),toupper)
- 		smatx<-do.call(rbind,sequs)
+			fasta<-read.fasta(a)
+ 			sequs<-lapply(getSequence(fasta),toupper)
+ 			smatx<-do.call(rbind,sequs)
  			
- 		catmat<-cbind(catmat,smatx)
- 		catlis<-alply(catmat,1)
+ 			catmat<-cbind(catmat,smatx)
+ 			catlis<-alply(catmat,1)
  		
- 		nams<-getName(fasta)
- 		nams<-unlist(lapply(nams,function(x){strsplit(x,'_')[[1]][1]}))
+ 			nams<-getName(fasta)
+ 			nams<-unlist(lapply(nams,function(x){strsplit(x,'_')[[1]][1]}))
  			
- 		write.fasta(catlis,names=nams,file='universal_proteins.ali')
- 	}
+ 			write.fasta(catlis,names=nams,file='universal_proteins.ali')
+ 		}
  	
-	system(paste('mv *uprot.faa',outdir))
-	system(paste('mv *uprot.ali',outdir))
-	system(paste('mv universal_proteins.ali',outdir))
-	system('rm -rf uprotdb*')
+		system(paste('mv *uprot.faa',outdir))
+		system(paste('mv *uprot.ali',outdir))
+		system(paste('mv universal_proteins.ali',outdir))
+		system('rm -rf uprotdb*')	
+	}
+	
+	if (align==TRUE & phylogeny==TRUE){
+		
+		phydat<-msaConvert(alignment,type='phangorn::phyDat')
+		distan<-dist.ml(phydat,model='JTT')
+		tre<-NJ(distan)
+		
+		write.tree(tre,file='NJ.uprot.tree.nwk')
+	
+	} else if (align==FALSE & phylogeny==TRUE){
+		
+		stop('For tree building both "align" and "phylogeny" must be set TRUE')
+	}
 	
  	setwd(gw)
 }
