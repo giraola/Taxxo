@@ -4,6 +4,8 @@
 #' @param path is the full path to where genome annotations in fasta format are placed.
 #' @param pattern a pattern (like '.faa') for recognizing the annotation files.
 #' @param outdir a name for the output directory that will be created for results.
+#' @param align takes a logical (default, TRUE) indicating if performing multiple sequence alignment.
+#' @param phylogeny takes a logical (default, TRUE) indicating if building a NJ phylogeny.
 #' @param proc is the number of threads used for protein searches.
 #' @keywords proteins archaeal markers
 #' @export
@@ -13,6 +15,8 @@
 aprot<-function(pattern='.faa',
 			    path='.',
 			    outdir='aprot_output',
+			    align=T,
+			    phylogeny=T,
 			    proc=2)
 			   
 			    {
@@ -187,42 +191,58 @@ aprot<-function(pattern='.faa',
 	}
  		
 	# Align sequences
- 		
- 	multi<-list.files(pattern='.aprot.faa')
- 		
- 	for (m in multi){
- 			
- 		out<-gsub('.faa','.ali',sep='')
- 		
- 		alignment<-msa(inputSeqs=m,method='Muscle',type='protein')	
-		aliconver<-msaConvert(alignment,type='seqinr::alignment')
-			
-		seqs<-lapply(aliconver$seq,s2c)
-		nams<-gsub(' ','',gsub('>','',system(paste("grep '>' ",m,sep=''),intern=T)))
-
-		write.fasta(seqs,names=nams,file=out)
-	}
- 		
- 	# Concatenate alignment
- 		
- 	alis<-list.files(pattern='.aprot.ali')
- 		
- 	catmat<-NULL
- 		
- 	for (a in alis){
- 			
-		fasta<-read.fasta(a)
- 		sequs<-lapply(getSequence(fasta),toupper)
- 		smatx<-do.call(rbind,sequs)
- 			
- 		catmat<-cbind(catmat,smatx)
- 		catlis<-alply(catmat,1)
- 		
- 		nams<-getName(fasta)
- 		nams<-unlist(lapply(nams,function(x){strsplit(x,'_')[[1]][1]}))
- 			
- 		write.fasta(catlis,names=nams,file='achaeal_proteins.ali')
- 	}
  	
+	if (align==TRUE){
+		
+ 		multi<-list.files(pattern='.aprot.faa')
+ 		
+ 		for (m in multi){
+ 			
+ 			out<-gsub('.faa','.ali',sep='')
+ 		
+ 			alignment<-msa(inputSeqs=m,method='Muscle',type='protein')	
+			aliconver<-msaConvert(alignment,type='seqinr::alignment')
+			
+			seqs<-lapply(aliconver$seq,s2c)
+			nams<-gsub(' ','',gsub('>','',system(paste("grep '>' ",m,sep=''),intern=T)))
+
+			write.fasta(seqs,names=nams,file=out)
+		}
+ 		
+ 		# Concatenate alignment
+ 		
+ 		alis<-list.files(pattern='.aprot.ali')
+ 		
+ 		catmat<-NULL
+ 		
+ 		for (a in alis){
+ 			
+			fasta<-read.fasta(a)
+ 			sequs<-lapply(getSequence(fasta),toupper)
+ 			smatx<-do.call(rbind,sequs)
+ 			
+ 			catmat<-cbind(catmat,smatx)
+ 			catlis<-alply(catmat,1)
+ 		
+ 			nams<-getName(fasta)
+ 			nams<-unlist(lapply(nams,function(x){strsplit(x,'_')[[1]][1]}))
+ 			
+ 			write.fasta(catlis,names=nams,file='achaeal_proteins.ali')
+ 		}
+	}
+	
+	if (align==TRUE & phylogeny==TRUE){
+		
+		phydat<-msaConvert(alignment,type='phangorn::phyDat')
+		dista<-dist.ml(phydat,model='JTT')
+		tre<-NJ(dista)
+		
+		write.tree(tre,file='NJ.aprot.tree.nwk')
+	
+	} else {
+		
+		stop('For tree building both "align" and "phylogeny" parameters must be set TRUE')
+	}
+				
  	setwd(gw)
 }
