@@ -15,8 +15,8 @@
 aprot<-function(pattern='.faa',
 			    path='.',
 			    outdir='aprot_output',
-			    align=T,
-			    phylogeny=T,
+			    align=TRUE,
+			    phylogeny=TRUE,
 			    proc=2)
 			   
 			    {
