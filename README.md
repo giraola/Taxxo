@@ -1,6 +1,6 @@
 ## Updates
 
-**30/12/16**
+**02/01/17**
 - Fixed issues with external software dependencies.
 
 **30/12/16** - uprot() function
