@@ -61,9 +61,9 @@ anib<-function(pattern='.fna',
 	# ANIb parallel #
 	
 	aniparallel<-function(y){
-
-		chun<-chunks[[y]]
 		
+		chun<-chunks[[y]]
+
 		if (length(chun)>1){
 		
 			comb<-combina[,chun]
