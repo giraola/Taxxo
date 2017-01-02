@@ -63,129 +63,221 @@ anib<-function(pattern='.fna',
 	aniparallel<-function(y){
 
 		chun<-chunks[[y]]
-		lchun<-length(chun)
-		comb<-combina[,chun]
 		
-		if (lchun>1){
+		if (length(chun)>1){
+		
+			comb<-combina[,chun]
+		
+			result<-NULL
+
+			for (i in 1:dim(comb)[2]){
+
+				# BLAST 1
+
+				query1<-comb[1,i]
+				subjt1<-comb[2,i]
 			
-			lcomb<-dim(comb)[2]
-			query1<-comb[1,i]
-			subjt1<-comb[2,i]
-			query2<-comb[2,i]
-			subjt2<-comb[1,i]
-			
-		} else if (lchun==1){
-			
-			lcomb<-lchun
-			query1<-comb[1]
-			subjt1<-comb[2]
-			query2<-comb[2]
-			subjt2<-comb[1]
-		}
+				blout1<-paste('blout1',y,i,sep='.')
+				query<-paste('query1',y,i,'fasta',sep='.')
 
-		result<-NULL
-
-		for (i in 1:lcomb){
-
-			# BLAST 1
-
-			#query1<-comb[1,i]
-			#subjt1<-comb[2,i]
-			
-			blout1<-paste('blout1',y,i,sep='.')
-			query<-paste('query1',y,i,'fasta',sep='.')
-
-			qfasta<-read.fasta(query1)
-			qseq<-unlist(lapply(getSequence(qfasta),toupper))
+				qfasta<-read.fasta(query1)
+				qseq<-unlist(lapply(getSequence(qfasta),toupper))
 				
-			rnd<-round(length(qseq)/1020)
-			fragments<-chunker(qseq,rnd)
+				rnd<-round(length(qseq)/1020)
+				fragments<-chunker(qseq,rnd)
 				
-			headers<-paste('fragment',seq(1:length(fragments)),sep='_')
+				headers<-paste('fragment',seq(1:length(fragments)),sep='_')
 				
-			write.fasta(fragments,names=headers,file=query)
+				write.fasta(fragments,names=headers,file=query)
 
-			blcmd1<-paste(blastn," -query ",query," -subject ",subjt1,
-						  " -xdrop_gap_final 150 ",
-						  " -outfmt '6 qseqid pident length qlen gaps' -out ",
-						  blout1,sep='')
+				blcmd1<-paste(blastn," -query ",query," -subject ",subjt1,
+							  " -xdrop_gap_final 150 ",
+							  " -outfmt '6 qseqid pident length qlen gaps' -out ",
+							  blout1,sep='')
 						 
-			system(blcmd1,ignore.stderr=T,ignore.stdout=T)
+				system(blcmd1,ignore.stderr=T,ignore.stdout=T)
 			
-			if (file.info(blout1)$size>0){
+				if (file.info(blout1)$size>0){
 				
-				tab1<-read.csv(blout1,sep='\t',header=F)
-				tab1[,6]<-(tab1[,3]-tab1[,5])/tab1[,4]
+					tab1<-read.csv(blout1,sep='\t',header=F)
+					tab1[,6]<-(tab1[,3]-tab1[,5])/tab1[,4]
 				
-				ani1<-mean(tab1[which(tab1[,6]>=.70 & tab1[,2]>=30),2])
+					ani1<-mean(tab1[which(tab1[,6]>=.70 & tab1[,2]>=30),2])
 				
-			} else {
+				} else {
 				
-				ani1<-0
-			}
+					ani1<-0
+				}
 			
-			system(paste('rm -rf',blout1,query))
+				system(paste('rm -rf',blout1,query))
 				
-			# BLAST 2
+				# BLAST 2
 							
-			#query2<-comb[2,i]
-			#subjt2<-comb[1,i]
+				query2<-comb[2,i]
+				subjt2<-comb[1,i]
 
-			qfasta<-read.fasta(query2)
-			qseq<-unlist(lapply(getSequence(qfasta),toupper))
+				qfasta<-read.fasta(query2)
+				qseq<-unlist(lapply(getSequence(qfasta),toupper))
 	
-			blout2<-paste('blout2',y,i,sep='.')
-			query<-paste('query2',y,i,'fasta',sep='.')
+				blout2<-paste('blout2',y,i,sep='.')
+				query<-paste('query2',y,i,'fasta',sep='.')
 
-			qfasta<-read.fasta(query2)
-			qseq<-unlist(lapply(getSequence(qfasta),toupper))
+				qfasta<-read.fasta(query2)
+				qseq<-unlist(lapply(getSequence(qfasta),toupper))
 				
-			rnd<-round(length(qseq)/1020)
-			fragments<-chunker(qseq,rnd)
+				rnd<-round(length(qseq)/1020)
+				fragments<-chunker(qseq,rnd)
 				
-			headers<-paste('fragment',seq(1:length(fragments)),sep='_')
+				headers<-paste('fragment',seq(1:length(fragments)),sep='_')
 				
-			write.fasta(fragments,names=headers,file=query)
+				write.fasta(fragments,names=headers,file=query)
 	
-			blcmd2<-paste(blastn," -query ",query," -subject ",subjt2,
-						  " -xdrop_gap_final 150 ",
-						  " -outfmt '6 qseqid pident length qlen gaps' -out ",
-						  blout2,sep='')
+				blcmd2<-paste(blastn," -query ",query," -subject ",subjt2,
+							  " -xdrop_gap_final 150 ",
+							  " -outfmt '6 qseqid pident length qlen gaps' -out ",
+							  blout2,sep='')
 						 
-			system(blcmd2,ignore.stderr=T,ignore.stdout=T)
+				system(blcmd2,ignore.stderr=T,ignore.stdout=T)
 						
-			if (file.info(blout2)$size>0){
+				if (file.info(blout2)$size>0){
 				
-				tab2<-read.csv(blout2,sep='\t',header=F)
-				tab2[,6]<-(tab2[,3]-tab2[,5])/tab2[,4]
+					tab2<-read.csv(blout2,sep='\t',header=F)
+					tab2[,6]<-(tab2[,3]-tab2[,5])/tab2[,4]
 				
-				ani2<-mean(tab2[which(tab2[,6]>=.70 & tab2[,2]>=30),2])
+					ani2<-mean(tab2[which(tab2[,6]>=.70 & tab2[,2]>=30),2])
 				
-			} else {
+				} else {
 				
-				ani2<-0
+					ani2<-0
+				}
+						
+				system(paste('rm -rf',blout2,query))
+			
+				# RESULT
+
+				anib<-(ani1+ani2)/2
+			
+				u1<-unlist(strsplit(comb[1,i],'/'))
+				u2<-unlist(strsplit(comb[2,i],'/'))
+			
+				l1<-length(u1)
+				l2<-length(u2)
+			
+				n1<-gsub(pattern,'',u1[l1])
+				n2<-gsub(pattern,'',u2[l2])
+
+				result<-rbind(result,c(n1,n2,round(anib,digits=2)))
 			}
+
+			return(result)
+		
+		} else if (length(chun)==1){
+		
+			comb<-combina[,chun]
+		
+			result<-NULL
+
+			for (i in 1:length(comb)){
+
+				# BLAST 1
+
+				query1<-comb[1]
+				subjt1<-comb[2]
+			
+				blout1<-paste('blout1',y,i,sep='.')
+				query<-paste('query1',y,i,'fasta',sep='.')
+
+				qfasta<-read.fasta(query1)
+				qseq<-unlist(lapply(getSequence(qfasta),toupper))
+				
+				rnd<-round(length(qseq)/1020)
+				fragments<-chunker(qseq,rnd)
+				
+				headers<-paste('fragment',seq(1:length(fragments)),sep='_')
+				
+				write.fasta(fragments,names=headers,file=query)
+
+				blcmd1<-paste(blastn," -query ",query," -subject ",subjt1,
+							  " -xdrop_gap_final 150 ",
+							  " -outfmt '6 qseqid pident length qlen gaps' -out ",
+							  blout1,sep='')
+						 
+				system(blcmd1,ignore.stderr=T,ignore.stdout=T)
+			
+				if (file.info(blout1)$size>0){
+				
+					tab1<-read.csv(blout1,sep='\t',header=F)
+					tab1[,6]<-(tab1[,3]-tab1[,5])/tab1[,4]
+				
+					ani1<-mean(tab1[which(tab1[,6]>=.70 & tab1[,2]>=30),2])
+				
+				} else {
+				
+					ani1<-0
+				}
+			
+				system(paste('rm -rf',blout1,query))
+				
+				# BLAST 2
+							
+				query2<-comb[2]
+				subjt2<-comb[1]
+
+				qfasta<-read.fasta(query2)
+				qseq<-unlist(lapply(getSequence(qfasta),toupper))
+	
+				blout2<-paste('blout2',y,i,sep='.')
+				query<-paste('query2',y,i,'fasta',sep='.')
+
+				qfasta<-read.fasta(query2)
+				qseq<-unlist(lapply(getSequence(qfasta),toupper))
+				
+				rnd<-round(length(qseq)/1020)
+				fragments<-chunker(qseq,rnd)
+				
+				headers<-paste('fragment',seq(1:length(fragments)),sep='_')
+				
+				write.fasta(fragments,names=headers,file=query)
+	
+				blcmd2<-paste(blastn," -query ",query," -subject ",subjt2,
+							  " -xdrop_gap_final 150 ",
+							  " -outfmt '6 qseqid pident length qlen gaps' -out ",
+							  blout2,sep='')
+						 
+				system(blcmd2,ignore.stderr=T,ignore.stdout=T)
 						
-			system(paste('rm -rf',blout2,query))
+				if (file.info(blout2)$size>0){
+				
+					tab2<-read.csv(blout2,sep='\t',header=F)
+					tab2[,6]<-(tab2[,3]-tab2[,5])/tab2[,4]
+				
+					ani2<-mean(tab2[which(tab2[,6]>=.70 & tab2[,2]>=30),2])
+				
+				} else {
+				
+					ani2<-0
+				}
+						
+				system(paste('rm -rf',blout2,query))
 			
-			# RESULT
+				# RESULT
 
-			anib<-(ani1+ani2)/2
+				anib<-(ani1+ani2)/2
 			
-			u1<-unlist(strsplit(comb[1,i],'/'))
-			u2<-unlist(strsplit(comb[2,i],'/'))
+				u1<-unlist(strsplit(comb[1,i],'/'))
+				u2<-unlist(strsplit(comb[2,i],'/'))
 			
-			l1<-length(u1)
-			l2<-length(u2)
+				l1<-length(u1)
+				l2<-length(u2)
 			
-			n1<-gsub(pattern,'',u1[l1])
-			n2<-gsub(pattern,'',u2[l2])
+				n1<-gsub(pattern,'',u1[l1])
+				n2<-gsub(pattern,'',u2[l2])
 
-			result<-rbind(result,c(n1,n2,round(anib,digits=2)))
+				result<-rbind(result,c(n1,n2,round(anib,digits=2)))
+			}
+
+			return(result)
 		}
-
-		return(result)
-	}
 	
 	if (reference=='all'){
 	
@@ -195,7 +287,7 @@ anib<-function(pattern='.fna',
 		combdim<-dim(combina)[2]
 
 		chunks<-chunker(c(1:combdim),proc)
-
+		
 		registerDoMC(proc)
 
 		final<-foreach(y=1:proc) %dopar% {
