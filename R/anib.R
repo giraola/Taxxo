@@ -14,7 +14,7 @@
 anib<-function(pattern='.fna',
 			   reference='all',
 			   path='.',
-			   outdir='anib_output',
+			   outdir='anib_result',
 			   proc=2)
 			   
 			   {
