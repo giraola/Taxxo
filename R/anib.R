@@ -168,8 +168,6 @@ anib<-function(pattern='.fna',
 
 				result<-rbind(result,c(n1,n2,round(anib,digits=2)))
 			}
-
-			return(result)
 		
 		} else if (length(chun)==1){
 		
