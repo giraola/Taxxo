@@ -246,8 +246,13 @@ uprot<-function(pattern='.faa',
 		system(paste('mv *uprot.ali',outdir))
 		system(paste('mv universal_proteins.ali',outdir))
 		system('rm -rf uprotdb*')	
-	}
 	
+	} else {
+		
+		system(paste('mv uaprot.faa',outdir))
+		system('rm -rf uprotdb*')
+	}
+			
 	if (align==TRUE & phylogeny==TRUE){
 		
 		phydat<-msaConvert(alignment,type='phangorn::phyDat')
@@ -255,6 +260,8 @@ uprot<-function(pattern='.faa',
 		tre<-NJ(distan)
 		
 		write.tree(tre,file='NJ.uprot.tree.nwk')
+		
+		system(paste('mv NJ.uprot.tree.nwk'),outdir))
 	
 	} else if (align==FALSE & phylogeny==TRUE){
 		
