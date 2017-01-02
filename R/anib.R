@@ -278,6 +278,7 @@ anib<-function(pattern='.fna',
 
 			return(result)
 		}
+	}
 	
 	if (reference=='all'){
 	
