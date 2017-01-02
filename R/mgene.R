@@ -238,7 +238,7 @@ mgene<-function(pattern='.faa',
 		
 		write.tree(tre,file=paste('NJ.',nmarker,'.tree.nwk',sep=''))
 		
-		system(paste('mv NJ.*.tree.nwk'),outdir)
+		system(paste('mv NJ.*.tree.nwk',outdir))
 	
 	} else if (align==FALSE & phylogeny==TRUE){
 		
