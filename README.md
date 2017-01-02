@@ -1,5 +1,8 @@
 ## Updates
 
+**30/12/16**
+- Fixed issues with external software dependencies.
+
 **30/12/16** - uprot() function
 - Fixed tresholds.csv file.
 
