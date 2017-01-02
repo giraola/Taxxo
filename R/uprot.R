@@ -261,7 +261,7 @@ uprot<-function(pattern='.faa',
 		
 		write.tree(tre,file='NJ.uprot.tree.nwk')
 		
-		system(paste('mv NJ.uprot.tree.nwk'),outdir))
+		system(paste('mv NJ.uprot.tree.nwk',outdir))
 	
 	} else if (align==FALSE & phylogeny==TRUE){
 		
