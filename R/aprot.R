@@ -413,9 +413,14 @@ aprot<-function(pattern='.faa',
 		system(paste('mv *aprot.faa',outdir))
 		system(paste('mv *aprot.ali',outdir))
 		system(paste('mv archaeal_proteins.ali',outdir))
-		system('rm -rf aprotdb*')	
-	}
+		system('rm -rf aprotdb*')
 	
+	} else {
+		
+		system(paste('mv *aprot.faa',outdir))
+		system('rm -rf aprotdb*')
+	}
+		
 	if (align==TRUE & phylogeny==TRUE){
 		
 		phydat<-msaConvert(alignment,type='phangorn::phyDat')
@@ -423,6 +428,8 @@ aprot<-function(pattern='.faa',
 		tre<-NJ(distan)
 		
 		write.tree(tre,file='NJ.aprot.tree.nwk')
+		
+		system(paste('mv NJ.aprot.tree.nwk',outdir))
 	
 	} else if (align==FALSE & phylogeny==TRUE){
 		
