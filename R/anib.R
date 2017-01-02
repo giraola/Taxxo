@@ -62,17 +62,35 @@ anib<-function(pattern='.fna',
 	
 	aniparallel<-function(y){
 
-		chun<-chunks[[y]]	
+		chun<-chunks[[y]]
+		lchun<-length(chun)
 		comb<-combina[,chun]
+		
+		if (lchun>1){
+			
+			lcom<-dim(comb)[2]
+			query1<-comb[1,i]
+			subjt1<-comb[2,i]
+			query2<-comb[2,i]
+			subjt2<-comb[1,i]
+			
+		} else if (lchun==1){
+			
+			lcomb<-lchun
+			query1<-comb[1]
+			subjt1<-comb[2]
+			query2<-comb[2]
+			subjt2<-comb[1]
+		}
 
 		result<-NULL
 
-		for (i in 1:dim(comb)[2]){
+		for (i in 1:lcomb){
 
 			# BLAST 1
 
-			query1<-comb[1,i]
-			subjt1<-comb[2,i]
+			#query1<-comb[1,i]
+			#subjt1<-comb[2,i]
 			
 			blout1<-paste('blout1',y,i,sep='.')
 			query<-paste('query1',y,i,'fasta',sep='.')
@@ -110,8 +128,8 @@ anib<-function(pattern='.fna',
 				
 			# BLAST 2
 							
-			query2<-comb[2,i]
-			subjt2<-comb[1,i]
+			#query2<-comb[2,i]
+			#subjt2<-comb[1,i]
 
 			qfasta<-read.fasta(query2)
 			qseq<-unlist(lapply(getSequence(qfasta),toupper))
