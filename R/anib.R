@@ -57,6 +57,11 @@ anib<-function(pattern='.fna',
 	
 	genomes<-gsub('//','/',list.files(path=path,pattern=pattern,full.names=T))
 	g.names<-gsub(pattern,'',list.files(path=path,pattern=pattern))
+	
+	if(proc>length(genomes)){
+		
+		proc<-length(genomes)
+	}
 
 	# ANIb parallel #
 	
@@ -299,12 +304,16 @@ anib<-function(pattern='.fna',
 		
 	} else if (reference!='all'){
 		
-		if (reference%in%genomes){
+		genaux<-do.call(rbind,strsplit(genomes,'/'))
+		genomes2<-as.vector(genaux[,dim(genaux)[2]])
+		
+		if (reference%in%genomes2){
 			
-			genomes2<-genomes[-which(genomes==reference)]
-			refset<-rep(reference,length(genomes2))
+			wh<-which(genomes2==reference)
+			genomes3<-genomes[-wh]
+			refset<-rep(genomes[wh],length(genomes3))
 			
-			combina<-rbind(genomes2,refset)
+			combina<-rbind(genomes3,refset)
 			rownames(combina)<-NULL
 			combdim<-dim(combina)[2]
 			
