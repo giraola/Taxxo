@@ -196,7 +196,7 @@ aprot<-function(pattern='.faa',
 		
  		multi<-list.files(pattern='.aprot.faa')
  		
-aprot<-function(pattern='.faa',
+		aprot<-function(pattern='.faa',
 			    path='.',
 			    outdir='aprot_output',
 			    align=TRUE,
