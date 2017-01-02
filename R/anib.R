@@ -264,8 +264,8 @@ anib<-function(pattern='.fna',
 
 				anib<-(ani1+ani2)/2
 			
-				u1<-unlist(strsplit(comb[1,i],'/'))
-				u2<-unlist(strsplit(comb[2,i],'/'))
+				u1<-unlist(strsplit(comb[1],'/'))
+				u2<-unlist(strsplit(comb[2],'/'))
 			
 				l1<-length(u1)
 				l2<-length(u2)
@@ -275,9 +275,9 @@ anib<-function(pattern='.fna',
 
 				result<-rbind(result,c(n1,n2,round(anib,digits=2)))
 			}
-
-			return(result)
 		}
+		
+		return(result)
 	}
 	
 	if (reference=='all'){
