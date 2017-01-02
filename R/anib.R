@@ -68,7 +68,7 @@ anib<-function(pattern='.fna',
 		
 		if (lchun>1){
 			
-			lcom<-dim(comb)[2]
+			lcomb<-dim(comb)[2]
 			query1<-comb[1,i]
 			subjt1<-comb[2,i]
 			query2<-comb[2,i]
