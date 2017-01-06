@@ -1,5 +1,8 @@
 ## Updates
 
+**06/01/17**
+- Full user manual available in the project's wiki.
+
 **02/01/17**
 - Fixed issues with external software dependencies.
 
