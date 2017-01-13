@@ -92,7 +92,7 @@ rrna<-function(path,
 			mssg<-paste('No ',subunit,' gene found in genome ',fnams[f],sep='')
 			cat(mssg,file='rrna.err',append=T,sep='\n')
 			
-			stop(mssg)
+			warning(mssg)
 			
 		} else {
 
@@ -193,7 +193,7 @@ rrna<-function(path,
 					mssg<-paste('No ',subunit,' gene found in genome ',fnams[f],sep='')
 					cat(mssg,file='rrna.err',append=T,sep='\n')
 			
-					stop(mssg)
+					warning(mssg)
 					
 				} else if (length(grp)==1){
 						
