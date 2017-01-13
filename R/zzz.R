@@ -51,11 +51,11 @@
 			system(paste('rm -rf ',lpl,sep=''),ignore.stdout=T)
 		}
 		
-		system(paste('chmod +x ',hmmer_linux,'*',sep=''),ignore.stdout=T)
-		system(paste('chmod +x ',blast_linux,'*',sep=''),ignore.stdout=T)
-		system(paste('chmod +x ',prodigal_linux,'prodigal',sep=''),ignore.stdout=T)
-		system(paste('chmod +x ',barrnap_all,'common/bin/barrnap',sep=''),ignore.stdout=T)
-		system(paste('chmod +x ',barrnap_all,'common/binaries/linux/nhmmer',sep=''),ignore.stdout=T)
+		system(paste('chmod +x ',hmmer_linux,'*',sep=''),ignore.stdout=T,ignore.stderr=T)
+		system(paste('chmod +x ',blast_linux,'*',sep=''),ignore.stdout=T,ignore.stderr=T)
+		system(paste('chmod +x ',prodigal_linux,'prodigal',sep=''),ignore.stdout=T,ignore.stderr=T)
+		system(paste('chmod +x ',barrnap_all,'common/bin/barrnap',sep=''),ignore.stdout=T,ignore.stderr=T)
+		system(paste('chmod +x ',barrnap_all,'common/binaries/linux/nhmmer',sep=''),ignore.stdout=T,ignore.stderr=T)
 		
 	} else if (os=='darwin'){
 	
@@ -87,10 +87,10 @@
 			system(paste('rm -rf ',lpd,sep=''),ignore.stdout=T)
 		}
 		
-		system(paste('chmod +x ',hmmer_darwin,'*',sep=''),ignore.stdout=T)
-		system(paste('chmod +x ',blast_darwin,'*',sep=''),ignore.stdout=T)
-		system(paste('chmod +x ',prodigal_darwin,'prodigal',sep=''),ignore.stdout=T)
-		system(paste('chmod +x ',barrnap_all,'common/bin/barrnap',sep=''),ignore.stdout=T)
-		system(paste('chmod +x ',barrnap_all,'common/binaries/darwin/nhmmer',sep=''),ignore.stdout=T)
+		system(paste('chmod +x ',hmmer_darwin,'*',sep=''),ignore.stdout=T,ignore.stderr=T)
+		system(paste('chmod +x ',blast_darwin,'*',sep=''),ignore.stdout=T,ignore.stderr=T)
+		system(paste('chmod +x ',prodigal_darwin,'prodigal',sep=''),ignore.stdout=T,ignore.stderr=T)
+		system(paste('chmod +x ',barrnap_all,'common/bin/barrnap',sep=''),ignore.stdout=T,ignore.stderr=T)
+		system(paste('chmod +x ',barrnap_all,'common/binaries/darwin/nhmmer',sep=''),ignore.stdout=T,ignore.stderr=T)
 	}	
 }
