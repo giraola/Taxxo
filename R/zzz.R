@@ -46,7 +46,7 @@
 		
 		if (length(list_barrnap_linux)>0){
 			
-			lpl<-gsub('//','/',list_barranp_linux)
+			lpl<-gsub('//','/',list_barrnap_linux)
 			system(paste('unzip ',lpl,' -d ',barrnap_all,sep=''),ignore.stdout=T)
 			system(paste('rm -rf ',lpl,sep=''),ignore.stdout=T)
 		}
