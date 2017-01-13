@@ -87,7 +87,7 @@ rrna<-function(path,
 		snames2<-gsub('>','',system(paste("grep '>' ",flist[f],sep=''),intern=T))
 		snames<-unlist(lapply(snames2,function(x){strsplit(x,' ')[[1]][1]}))
 		
-		if (file.info(outgff)$size==0){
+		if (file.info(outgff)$size<=16){
 			
 			mssg<-paste('No ',subunit,' gene found in genome ',fnams[f],sep='')
 			cat(mssg,file='rrna.err',append=T,sep='\n')
