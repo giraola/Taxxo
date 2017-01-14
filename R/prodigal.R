@@ -51,6 +51,8 @@ prodigal<-function(path='.',
 		return(s)
 	}
 	
+	system('touch prodigal.err')
+	
 	prodigal_parallel<-function(z){
 		
 		chun<-chunks[[z]]
