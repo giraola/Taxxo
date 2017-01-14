@@ -86,7 +86,7 @@ prodigal<-function(path='.',
 			
 			len<-length(sfa)
 			
-			nam<-paste(gsub(pattern,'',flist[h]),seq(1,len),sep='_')
+			nam<-paste(flist[h],seq(1,len),sep='_')
 			
 			write.fasta(sfa,names=nam,file=paste(fullpath[h],'.faa',sep=''))
 			write.fasta(sfn,names=nam,file=paste(fullpath[h],'.ffn',sep=''))
