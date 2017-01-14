@@ -78,18 +78,28 @@ prodigal<-function(path='.',
 			infaa<-paste(fullpath[h],'.faa',sep='')
 			inffn<-paste(fullpath[h],'.ffn',sep='')
 		
-			faa<-read.fasta(infaa)
-			ffn<-read.fasta(inffn)
+			if (file.info(infaa)$size>0){
+			
+				faa<-read.fasta(infaa)
+				ffn<-read.fasta(inffn)
 		
-			sfa<-lapply(getSequence(faa),toupper)
-			sfn<-lapply(getSequence(ffn),toupper)
+				sfa<-lapply(getSequence(faa),toupper)
+				sfn<-lapply(getSequence(ffn),toupper)
 			
-			len<-length(sfa)
+				len<-length(sfa)
 			
-			nam<-paste(flist[h],seq(1,len),sep='_')
+				nam<-paste(flist[h],seq(1,len),sep='_')
 			
-			write.fasta(sfa,names=nam,file=paste(fullpath[h],'.faa',sep=''))
-			write.fasta(sfn,names=nam,file=paste(fullpath[h],'.ffn',sep=''))
+				write.fasta(sfa,names=nam,file=paste(fullpath[h],'.faa',sep=''))
+				write.fasta(sfn,names=nam,file=paste(fullpath[h],'.ffn',sep=''))
+			
+			} else {
+				
+				mssg<-paste('Files',infaa,'and',inffn,'are empty!')
+				warning(mssg)
+				
+				cat(mssg,sep='\n',append=T,file='prodigal.err')
+			}
 		}
 	}
 				
