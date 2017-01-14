@@ -57,10 +57,10 @@ prodigal<-function(path='.',
 		for (h in chun){
 			
 			ingenome<-fullpath[h]
-			outgenome<-gsub(pattern,'.out',fullpath[h])
-			logfile<-gsub(pattern,'.log',fullpath[h])
-			faa<-gsub(pattern,'.faa',fullpath[h])
-			ffn<-gsub(pattern,'.ffn',fullpath[h])
+			outgenome<-paste(fullpath[h],'.out',sep='')
+			logfile<-paste(fullpath[h],'.log',sep='')
+			faa<-paste(fullpath[h],'.faa',sep='')
+			ffn<-paste(fullpath[h],'.ffn',sep='')
 			
 			cmd<-paste(prodigal,' -i ',ingenome,' -a ',faa,' -d ',ffn,' -o ',outgenome,' &> ',logfile,sep='')
 		
@@ -74,8 +74,8 @@ prodigal<-function(path='.',
 		
 		for (h in chun){
 			
-			infaa<-gsub(pattern,'.faa',fullpath[h])
-			inffn<-gsub(pattern,'.ffn',fullpath[h])
+			infaa<-paste(fullpath[h],'.faa',sep='')
+			inffn<-paste(fullpath[h],'.ffn',sep='')
 		
 			faa<-read.fasta(infaa)
 			ffn<-read.fasta(inffn)
@@ -87,8 +87,8 @@ prodigal<-function(path='.',
 			
 			nam<-paste(gsub(pattern,'',flist[h]),seq(1,len),sep='_')
 			
-			write.fasta(sfa,names=nam,file=gsub(pattern,'.faa',fullpath[h]))
-			write.fasta(sfn,names=nam,file=gsub(pattern,'.ffn',fullpath[h]))
+			write.fasta(sfa,names=nam,file=paste(fullpath[h],'.faa',sep=''))
+			write.fasta(sfn,names=nam,file=paste(fullpath[h],'.ffn',sep=''))
 		}
 	}
 				
