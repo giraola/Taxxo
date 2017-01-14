@@ -29,11 +29,11 @@ uprot<-function(pattern='.faa',
 	
 	# Dependencies #
 	
-	require(seqinr,quietly=T)
-	require(foreach,quietly=T)
-	require(doMC,quietly=T)
-	require(msa,quietly=T)
-	require(plyr,quietly=T)
+	suppressMessages(require(seqinr,quietly=T))
+	suppressMessages(require(foreach,quietly=T))
+	suppressMessages(require(doMC,quietly=T))
+	suppressMessages(require(msa,quietly=T))
+	suppressMessages(require(plyr,quietly=T))
 
 	# Internal functions #
 	
@@ -198,7 +198,7 @@ uprot<-function(pattern='.faa',
 					sep='\n',
 					append=T)
 				
-				cat('X',
+				cat(rep('-',100),
 					file=outfile,
 					sep='\n',
 					append=T)
