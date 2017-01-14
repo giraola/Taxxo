@@ -78,7 +78,7 @@ prodigal<-function(path='.',
 			infaa<-paste(fullpath[h],'.faa',sep='')
 			inffn<-paste(fullpath[h],'.ffn',sep='')
 		
-			if (file.info(infaa)$size>0){
+			if (file.info(infaa)$size==0){
 			
 				faa<-read.fasta(infaa)
 				ffn<-read.fasta(inffn)
