@@ -9,6 +9,7 @@
 #' @examples
 #' rrna(path='.',pattern='.fasta',outdir='prodigal_output')
 
+
 prodigal<-function(path='.',
 				   pattern='.fasta',
 				   outdir='prodigal_output',
