@@ -78,7 +78,7 @@ prodigal<-function(path='.',
 			infaa<-paste(fullpath[h],'.faa',sep='')
 			inffn<-paste(fullpath[h],'.ffn',sep='')
 		
-			if (file.info(infaa)$size==0){
+			if (file.info(infaa)$size>0){
 			
 				faa<-read.fasta(infaa)
 				ffn<-read.fasta(inffn)
@@ -131,5 +131,6 @@ prodigal<-function(path='.',
 	system(paste('mv ',path,'*.faa ',outdir,sep=''))
 	system(paste('mv ',path,'*.ffn ',outdir,sep=''))
 	system(paste('mv ',path,'*.out ',outdir,sep=''))
-	system(paste('mv ',path,'*.log ',outdir,sep=''))	
+	system(paste('mv ',path,'*.log ',outdir,sep=''))
+	system(paste('mv prodigal.err',outdir))
 }
