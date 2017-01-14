@@ -197,6 +197,11 @@ uprot<-function(pattern='.faa',
 					file=outfile,
 					sep='\n',
 					append=T)
+				
+				cat('X',
+					file=outfile,
+					sep='\n',
+					append=T)
 			}
 		}
 	}
