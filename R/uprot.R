@@ -198,7 +198,7 @@ uprot<-function(pattern='.faa',
 					sep='\n',
 					append=T)
 				
-				cat(rep('-',100),
+				cat(rep('X',100),
 					file=outfile,
 					sep='\n',
 					append=T)
