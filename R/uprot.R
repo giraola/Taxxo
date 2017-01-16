@@ -178,6 +178,7 @@ uprot<-function(pattern='.faa',
  	for (u in 1:length(uprots)){
  			
  		outfile<-paste(uprots[u],'.uprot.faa',sep='')
+		absents<-paste(uprots[u],'.absent',sep='')
  			
  		prots<-as.vector(presence_absence_uprot[,u])
 			
@@ -192,16 +193,8 @@ uprot<-function(pattern='.faa',
 				system(cmd)
 					
 			} else {
-					
-				cat(paste('>',genoms[p],'_absent',sep=''),
-					file=outfile,
-					sep='\n',
-					append=T)
 				
-				cat(rep('X',100),
-					file=outfile,
-					sep='\n',
-					append=T)
+				cat(paste(genomes[p],'_absent','\t',p,sep=''),sep='\n',file=absents,type='append')
 			}
 		}
 	}
@@ -225,7 +218,51 @@ uprot<-function(pattern='.faa',
 				
 			write.fasta(seqs,names=nams,file=out)
 		}
- 		
+		
+		# Add absents
+		
+		abfiles<-list.files(pattern='.absent')
+		
+		if (length(abfiles)>0){
+			
+			for (a in abfiles){
+				
+				# Open corresponding alignment
+				
+				badfile<-gsub('.absent','.uprot.ali',a)
+				fasta<-read.fasta(bafile)
+				sequs<-lapply(getSequence(fasta),toupper)
+				namos<-getName(fasta)
+				
+				gaps<-rep('-',length(sequs[[1]]))
+				
+				# Read file with absents
+				
+				ab<-read.table(a,sep='\t',header=T)
+				
+				counter<-0
+				
+				for (b in 1:dim(ab)[1]){
+							
+					nam<-as.vector(ab[1,1])
+					pos<-as.vector(ab[1,2])+counter				
+		
+					counter<-counter+1
+					
+					sequs1<-sequs[[1:(pos-1)]]
+					sequs2<-sequs[[(pos+1):length(sequs)]]
+
+					namos1<-namos[[1:(pos-1)]]
+					namos2<-[[(pos+1):length(namos)]]
+					
+					sequs<-c(sequs1,gaps,sequs2)
+					namos<-c(namos1,nam,namos2)
+				}
+				
+				write.fasta(sequs,names=namos,file=badfile)
+			}
+		}
+
  		# Concatenate alignment
  		
  		alis<-list.files(pattern='.uprot.ali')
