@@ -34,7 +34,10 @@ uprot<-function(pattern='.faa',
 	suppressMessages(require(doMC,quietly=T))
 	suppressMessages(require(msa,quietly=T))
 	suppressMessages(require(plyr,quietly=T))
+	suppressMessages(require(ape,quietly=T))
 
+
+	
 	# Internal functions #
 	
 	chunker<-function(m,n){
@@ -298,8 +301,8 @@ uprot<-function(pattern='.faa',
 			
 	if (align==TRUE & phylogeny==TRUE){
 		
-		phydat<-msaConvert(alignment,type='phangorn::phyDat')
-		distan<-dist.ml(phydat,model='JTT')
+		phydat<-msaConvert(alignment,type='ape::AAbin')
+		distan<-dist.alignment(as.alignment(phydat))^2
 		tre<-NJ(distan)
 		
 		write.tree(tre,file='NJ.uprot.tree.nwk')
