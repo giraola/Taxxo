@@ -238,7 +238,7 @@ uprot<-function(pattern='.faa',
 				
 				# Read file with absents
 				
-				ab<-read.table(a,sep='\t',header=T)
+				ab<-read.table(a,sep='\t',header=F)
 				
 				counter<-0
 				
