@@ -53,13 +53,15 @@ uprot<-function(pattern='.faa',
 		hmmsearch<-paste(system.file('hmmer3',package='taxxo'),'/linux/hmmsearch',sep='')
 		bldbcd<-paste(system.file('blast',package='taxxo'),'/linux/blastdbcmd',sep='')
 		mkbldb<-paste(system.file('blast',package='taxxo'),'/linux/makeblastdb',sep='')
+		fasttree<-paste(system.file('fasttree',package='taxxo'),'/linux/FastTree',sep='')
 		
 	} else if (os=='darwin'){
 		
 		hmmsearch<-paste(system.file('hmmer3',package='taxxo'),'/darwin/hmmsearch',sep='')
 		bldbcd<-paste(system.file('blast',package='taxxo'),'/darwin/blastdbcmd',sep='')
 		mkbldb<-paste(system.file('blast',package='taxxo'),'/darwin/makeblastdb',sep='')
-
+		fasttree<-paste(system.file('fasttree',package='taxxo'),'/darwin/FastTree',sep='')
+		
 	} else {
 		
 		stop('ERROR: Unknown OS, unable to proceed.')
@@ -291,7 +293,8 @@ uprot<-function(pattern='.faa',
 		system(paste('mv *uprot.faa',outdir))
 		system(paste('mv *uprot.ali',outdir))
 		system(paste('mv universal_proteins.ali',outdir))
-		system('rm -rf uprotdb*')	
+		system('rm -rf uprotdb*')
+		system('rm -rf *.absent')
 	
 	} else {
 		
@@ -299,19 +302,29 @@ uprot<-function(pattern='.faa',
 		system('rm -rf uprotdb*')
 	}
 			
-	if (align==TRUE & phylogeny==TRUE){
+	if (align==TRUE & phylogeny!='NO'){
 		
-		phydat<-msaConvert(alignment,type='ape::AAbin')
-		distan<-dist.alignment(as.alignment(phydat))^2
-		tre<-NJ(distan)
+		setwd(outdir)
 		
-		write.tree(tre,file='NJ.uprot.tree.nwk')
+		if (phylogeny=='NJ'){
 		
-		system(paste('mv NJ.uprot.tree.nwk',outdir))
+			upali<-read.fasta('universal_proteins.ali')
+			asali<-as.alignment(upali)
+			dista<-dist.alignment(asali)^2			
+			tre<-nj(dista)
+
+			write.tree(tre,file='NJ.uprot.tree.nwk')
+					
+		} else if (phylogeny=='ML'){
+			
+			cmd<-paste(fasttree,'universal_proteins.ali > ML.uprot.tree.nwk')
+			
+			system(cmd,ignore.stderr=T)
+		}
 	
 	} else if (align==FALSE & phylogeny==TRUE){
 		
-		stop('For tree building both "align" and "phylogeny" must be set TRUE')
+		stop('For tree building both "align" and "phylogeny" must be set!')
 	}
 	
  	setwd(gw)
