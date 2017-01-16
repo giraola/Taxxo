@@ -234,7 +234,7 @@ uprot<-function(pattern='.faa',
 				sequs<-lapply(getSequence(fasta),toupper)
 				namos<-getName(fasta)
 				
-				gaps<-rep('-',length(sequs[1]))
+				gaps<-rep('-',length(sequs[[1]]))
 				
 				# Read file with absents
 				
