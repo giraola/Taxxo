@@ -194,7 +194,7 @@ uprot<-function(pattern='.faa',
 					
 			} else {
 				
-				cat(paste(genoms[p],'_absent','\t',p,sep=''),sep='\n',file=absents,type='append')
+				cat(paste(genoms[p],'_absent','\t',p,sep=''),sep='\n',file=absents,append=T)
 			}
 		}
 	}
