@@ -249,11 +249,11 @@ uprot<-function(pattern='.faa',
 		
 					counter<-counter+1
 					
-					sequs1<-sequs[[1:(pos-1)]]
+					sequs1<-sequs[[1:pos]]
 					sequs2<-sequs[[(pos+1):length(sequs)]]
 
-					namos1<-namos[[1:(pos-1)]]
-					namos2<-[[(pos+1):length(namos)]]
+					namos1<-namos[[1:pos]]
+					namos2<-namos[[(pos+1):length(namos)]]
 					
 					sequs<-c(sequs1,gaps,sequs2)
 					namos<-c(namos1,nam,namos2)
