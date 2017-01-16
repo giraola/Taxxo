@@ -234,7 +234,8 @@ uprot<-function(pattern='.faa',
 				sequs<-lapply(getSequence(fasta),toupper)
 				namos<-getName(fasta)
 				
-				gaps<-rep('-',length(sequs[[1]]))
+				gaps<-list()
+				gaps[[1]]<-rep('-',length(sequs[[1]]))
 				
 				# Read file with absents
 				
@@ -244,8 +245,8 @@ uprot<-function(pattern='.faa',
 				
 				for (b in 1:dim(ab)[1]){
 							
-					nam<-as.vector(ab[1,1])
-					pos<-as.vector(ab[1,2])+counter				
+					nam<-as.vector(ab[b,1])
+					pos<-as.vector(ab[b,2])+counter				
 		
 					counter<-counter+1
 					
