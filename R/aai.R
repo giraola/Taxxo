@@ -26,9 +26,9 @@ aai<-function(pattern='.faa',
 
 	# Dependencies #
 
-	library(foreach,quietly=T)
-	library(doMC,quietly=T)
-	library(seqinr,quietly=T)
+	suppressPackageStartupMessages(library(foreach,quietly=T))
+	suppressPackageStartupMessages(library(doMC,quietly=T))
+	suppressPackageStartupMessages(library(seqinr,quietly=T))
 
 	# Define internal function #
 
