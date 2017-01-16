@@ -39,9 +39,9 @@ prodigal<-function(path='.',
 		
 	# Dependencies #
 	
-	require(seqinr,quietly=T)
-	require(foreach,quietly=T)
-	require(doMC,quietly=T)
+	suppressPackageStartupMessages(require(seqinr,quietly=T))
+	suppressPackageStartupMessagesrequire(foreach,quietly=T))
+	suppressPackageStartupMessagesrequire(doMC,quietly=T))
 
 	# Internal functions #
 	
