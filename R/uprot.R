@@ -230,7 +230,7 @@ uprot<-function(pattern='.faa',
 				# Open corresponding alignment
 				
 				badfile<-gsub('.absent','.uprot.ali',a)
-				fasta<-read.fasta(bafile)
+				fasta<-read.fasta(badfile)
 				sequs<-lapply(getSequence(fasta),toupper)
 				namos<-getName(fasta)
 				
