@@ -26,10 +26,10 @@ agios<-function(pattern='.ffn',
 	
 	# Dependencies #
 
-	library(foreach,quietly=T)
-	library(doMC,quietly=T)
-	library(seqinr,quietly=T)
-	library(msa,quietly=T)
+	suppressPackageStartupMessages(library(foreach,quietly=T))
+	suppressPackageStartupMessages(library(doMC,quietly=T))
+	suppressPackageStartupMessages(library(seqinr,quietly=T))
+	suppressPackageStartupMessages(library(msa,quietly=T))
 
 	# Define internal function #
 
