@@ -2,7 +2,7 @@
 		
 	# Dependencies
 		
-	packages.needed<-c('msa','phangorn','seqinr','doMC','foreach','plyr')
+	packages.needed<-c('msa','ape','seqinr','doMC','foreach','plyr')
 	packages.installed<-installed.packages()[,'Package']
 	
 	dif<-setdiff(packages.needed,packages.installed)
@@ -27,7 +27,8 @@
 		blast_linux<-paste(system.file('blast',package='taxxo'),'/linux/',sep='')
 		prodigal_linux<-paste(system.file('prodigal',package='taxxo'),'/linux/',sep='')
 		barrnap_all<-paste(system.file('barrnap',package='taxxo'),'/',sep='')
-					
+		fasttree_linux<-paste(system.file('fasttree',package='taxxo'),'/linux/',sep='')
+		
 		list_blast_linux<-list.files(blast_linux,pattern='.zip',full.names=T)
 	
 		if (length(list_blast_linux)>0){
@@ -56,6 +57,7 @@
 		system(paste('chmod +x ',prodigal_linux,'prodigal',sep=''),ignore.stdout=T,ignore.stderr=T)
 		system(paste('chmod +x ',barrnap_all,'common/bin/barrnap',sep=''),ignore.stdout=T,ignore.stderr=T)
 		system(paste('chmod +x ',barrnap_all,'common/binaries/linux/nhmmer',sep=''),ignore.stdout=T,ignore.stderr=T)
+		system(paste('chmod +x ',fasttree_linux,'FastTree',sep=''),ignore.stdout=T,ignore.stderr=T)
 		
 	} else if (os=='darwin'){
 	
@@ -63,6 +65,7 @@
 		blast_darwin<-paste(system.file('blast',package='taxxo'),'/darwin/',sep='')
 		prodigal_darwin<-paste(system.file('prodigal',package='taxxo'),'/darwin/',sep='')
 		barrnap_all<-paste(system.file('barrnap',package='taxxo'),'/',sep='')
+		fasttree_darwin<-paste(system.file('fasttree',package='taxxo'),'/darwin/',sep='')
 
 		list_blast_darwin<-list.files(blast_darwin,pattern='.zip',full.names=T)
 	
@@ -92,5 +95,7 @@
 		system(paste('chmod +x ',prodigal_darwin,'prodigal',sep=''),ignore.stdout=T,ignore.stderr=T)
 		system(paste('chmod +x ',barrnap_all,'common/bin/barrnap',sep=''),ignore.stdout=T,ignore.stderr=T)
 		system(paste('chmod +x ',barrnap_all,'common/binaries/darwin/nhmmer',sep=''),ignore.stdout=T,ignore.stderr=T)
+		system(paste('chmod +x ',fasttree_darwin,'FastTree',sep=''),ignore.stdout=T,ignore.stderr=T)
+
 	}	
 }
