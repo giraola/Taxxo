@@ -5,7 +5,7 @@
 #' @param pattern a pattern (like '.faa') for recognizing the annotation files.
 #' @param outdir a name for the output directory that will be created for results.
 #' @param align takes a logical (default, TRUE) indicating if multiple sequence alignment is performed.
-#' @param phylogeny takes a logical (default, TRUE) indicating if a NJ phylogeny is built.
+#' @param phylogeny takes 'NJ' (default) for a Neighbor-Joining tree, 'ML' for a Maximum-Likelihood tree or 'NO' for avoiding tree reconstruction.
 #' @param proc is the number of threads used for protein searches.
 #' @keywords ribosomal proteins universal markers
 #' @export
@@ -16,7 +16,7 @@ uprot<-function(pattern='.faa',
 			    path='.',
 			    outdir='uprot_output',
 			    align=TRUE,
-			    phylogeny=TRUE,
+			    phylogeny='NJ',
 			    proc=2)
 			   
 			    {
