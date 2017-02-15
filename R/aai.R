@@ -68,7 +68,7 @@ aai<-function(pattern='.faa',
 	
 	for (g in 1:length(genomes)){
 		
-		cmd<-paste(mkbldb,' -in ',genomes[g],' -dbtype prot -title ',g.names[g],' -out ',g.names[g],sep='')
+		cmd<-paste(mkbldb,' -in ../',genomes[g],' -dbtype prot -title ',g.names[g],' -out ',g.names[g],sep='')
 		system(cmd,ignore.stderr=T,ignore.stdout=T)
 	}
 	
