@@ -100,8 +100,8 @@ aai<-function(pattern='.faa',
 				query1<-comb[1,i]
 				
 				aux1<-strsplit(comb[2,i],'/')
-				len1<-length(aux1)
-				subjt1<-aux1[[1]][len1]
+				len1<-length(aux1[[1]])
+				subjt1<-gsub(pattern,'',aux1[[1]][len1])
 
 				blcmd1<-paste(blastp," -query ",query1," -db ./tmpaaidbs/",subjt1,
 							 " -outfmt '6 qseqid sseqid pident length qlen gaps' -out blout1.",
@@ -118,8 +118,8 @@ aai<-function(pattern='.faa',
 				query2<-comb[2,i]
 				
 				aux2<-strsplit(comb[1,i],'/')
-				len2<-length(aux2)
-				subjt2<-aux2[[1]][len2]
+				len2<-length(aux2[[1]])
+				subjt2<-gsub(pattern,'',aux2[[1]][len2])
 
 				blcmd2<-paste(blastp," -query ",query2," -db ./tmpaaidbs/",subjt2,
 							 " -outfmt '6 qseqid sseqid pident length qlen gaps' -out blout2.",
@@ -164,8 +164,8 @@ aai<-function(pattern='.faa',
 			query1<-comb[1]
 			
 			aux1<-strsplit(comb[2],'/')
-			len1<-length(aux1)
-			subjt1<-aux1[[1]][len1]
+			len1<-length(aux1[[1]])
+			subjt1<-gsub(pattern,'',aux1[[1]][len1])
 
 			blcmd1<-paste(blastp," -query ",query1," -db ./tmpaaidbs/",subjt1,
 						 " -outfmt '6 qseqid sseqid pident length qlen gaps' -out blout1.",
@@ -182,8 +182,8 @@ aai<-function(pattern='.faa',
 			query2<-comb[2]
 			
 			aux2<-strsplit(comb[1],'/')
-			len2<-length(aux2)
-			subjt2<-aux2[[1]][len2]
+			len2<-length(aux2[[1]])
+			subjt2<-gsub(pattern,'',aux2[[1]][len2])
 
 			blcmd2<-paste(blastp," -query ",query2," -db ./tmpaaidbs/",subjt2,
 						 " -outfmt '6 qseqid sseqid pident length qlen gaps' -out blout2.",
