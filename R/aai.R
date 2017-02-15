@@ -43,11 +43,13 @@ aai<-function(pattern='.faa',
 	if (os=='linux'){
 	
 		blastp<-paste(system.file('blast',package='taxxo'),'/linux/blastp',sep='')
+		mkbldb<-paste(system.file('blast',package='taxxo'),'/linux/makeblastdb',sep='')
 		
 	} else if (os=='darwin'){
 		
 		blastp<-paste(system.file('blast',package='taxxo'),'/darwin/blastp',sep='')
-
+		mkbldb<-paste(system.file('blast',package='taxxo'),'/darwin/makeblastdb',sep='')
+		
 	} else {
 		
 		stop('ERROR: Unknown OS, unable to proceed.')
@@ -57,7 +59,23 @@ aai<-function(pattern='.faa',
 	
 	genomes<-gsub('//','/',list.files(path=path,pattern=pattern,full.names=T))
 	g.names<-gsub(pattern,'',list.files(path=path,pattern=pattern))
-
+	
+	# Make databases #
+	
+	system('mkdir tmpaaidbs')
+	
+	setwd('./tmpaaidbs')
+	
+	for (g in 1:length(genomes)){
+		
+		cmd<-paste(mkbldb,' -in ',genomes[g],' -dbtype prot -title ',g.names[g],' -out ',g.names[g],sep='')
+		system(cmd,ignore.stderr=T,ignore.stdout=T)
+	}
+	
+	setwd('../')
+	
+	# Check multi cores #
+	
 	if(proc>length(genomes)){
 		
 		proc<-length(genomes)
@@ -80,9 +98,12 @@ aai<-function(pattern='.faa',
 				# BLAST 1
 
 				query1<-comb[1,i]
-				subjt1<-comb[2,i]
+				
+				aux1<-strsplit(comb[2,i],'/')
+				len1<-length(aux1)
+				subjt1<-aux1[[1]][len1]
 
-				blcmd1<-paste(blastp," -query ",query1," -subject ",subjt1,
+				blcmd1<-paste(blastp," -query ",query1," -db ./tmpaaidbs/",subjt1,
 							 " -outfmt '6 qseqid sseqid pident length qlen gaps' -out blout1.",
 							 y,".",i,sep='')
                         
@@ -95,9 +116,12 @@ aai<-function(pattern='.faa',
 				# BLAST 2
 							
 				query2<-comb[2,i]
-				subjt2<-comb[1,i]
+				
+				aux2<-strsplit(comb[1,i],'/')
+				len2<-length(aux2)
+				subjt2<-aux2[[1]][len2]
 
-				blcmd2<-paste(blastp," -query ",query2," -subject ",subjt2,
+				blcmd2<-paste(blastp," -query ",query2," -db ./tmpaaidbs/",subjt2,
 							 " -outfmt '6 qseqid sseqid pident length qlen gaps' -out blout2.",
 							 y,".",i,sep='')
                         
@@ -138,9 +162,12 @@ aai<-function(pattern='.faa',
 			# BLAST 1
 
 			query1<-comb[1]
-			subjt1<-comb[2]
+			
+			aux1<-strsplit(comb[2],'/')
+			len1<-length(aux1)
+			subjt1<-aux1[[1]][len1]
 
-			blcmd1<-paste(blastp," -query ",query1," -subject ",subjt1,
+			blcmd1<-paste(blastp," -query ",query1," -db ./tmpaaidbs/",subjt1,
 						 " -outfmt '6 qseqid sseqid pident length qlen gaps' -out blout1.",
 						 y,".",i,sep='')
                         
@@ -153,9 +180,12 @@ aai<-function(pattern='.faa',
 			# BLAST 2
 							
 			query2<-comb[2]
-			subjt2<-comb[1]
+			
+			aux2<-strsplit(comb[1],'/')
+			len2<-length(aux2)
+			subjt2<-aux2[[1]][len2]
 
-			blcmd2<-paste(blastp," -query ",query2," -subject ",subjt2,
+			blcmd2<-paste(blastp," -query ",query2," -db ./tmpaaidbs/",subjt2,
 						 " -outfmt '6 qseqid sseqid pident length qlen gaps' -out blout2.",
 						 y,".",i,sep='')
                         
@@ -250,5 +280,5 @@ aai<-function(pattern='.faa',
 	
 	system(paste('mkdir',outdir))
 	system(paste('mv aai_result.Rdata',outdir))
-	system('rm -rf blout1* blout2*')
+	system('rm -rf tmpaaidbs blout1* blout2*')
 }
