@@ -149,7 +149,6 @@ aai<-function(
 			cmd3<-'cat blout1 blout2 > blout3'
 
 			system(cmd3)
-			system('rm -rf partial_* splitted_* blout*')
 
 			blout<-read.csv('blout3',sep='\t',header=F)
 			blout[,7]<-(blout[,5]-blout[,4])/blout[,6]
@@ -164,6 +163,8 @@ aai<-function(
 			n2<-subjt1
 			
 			result<-rbind(result,c(n1,n2,round(aai,digits=2)))
+			
+			system('rm -rf partial_* splitted_* blout*')
 		}
 
 		aai_result<-as.data.frame(result)
@@ -234,8 +235,7 @@ aai<-function(
 				cmd3<-'cat blout1 blout2 > blout3'
 
 				system(cmd3)
-				system('rm -rf partial_* splitted_* blout*')
-
+			
 				blout<-read.csv('blout3',sep='\t',header=F)
 				blout[,7]<-(blout[,5]-blout[,4])/blout[,6]
 				blout<-blout[which(blout[,3]>=50 & blout[,7]>=.7),]
@@ -249,6 +249,8 @@ aai<-function(
 				n2<-subjt1
 			
 				result<-rbind(result,c(n1,n2,round(aai,digits=2)))
+				
+				system('rm -rf partial_* splitted_* blout*')
 			}
 
 			aai_result<-as.data.frame(result)
