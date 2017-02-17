@@ -221,7 +221,7 @@ agios<-function(
 
 				partial<-c(partial,ident)
 			}
-			
+						
 			agios<-mean(partial)
 			
 			n1<-subjt2
@@ -230,6 +230,7 @@ agios<-function(
 			result<-rbind(result,c(n1,n2,round(agios,digits=2)))
 
 			setwd('../')
+			system('rm -rf ./agiosbrhs')
 		}
 
 		agios_result<-as.data.frame(result)
@@ -350,6 +351,8 @@ agios<-function(
 			result<-rbind(result,c(n1,n2,round(agios,digits=2)))
 
 			setwd('../')
+			system('rm -rf agiosbrhs')
+			
 		}
 
 		agios_result<-as.data.frame(result)
@@ -365,5 +368,5 @@ agios<-function(
 	
 	system(paste('mkdir',outdir))
 	system(paste('mv agios_result.Rdata',outdir))
-	system('rm -rf tmpagiosdbs agiosbrhs agiosfaa')
+	system('rm -rf tmpagiosdbs agiosfaa')
 }
