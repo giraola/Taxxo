@@ -60,10 +60,10 @@ prodigal<-function(path='.',
 		for (h in chun){
 			
 			ingenome<-fullpath[h]
-			outgenome<-paste(fullpath[h],'.out',sep='')
-			logfile<-paste(fullpath[h],'.log',sep='')
-			faa<-paste(fullpath[h],'.faa',sep='')
-			ffn<-paste(fullpath[h],'.ffn',sep='')
+			outgenome<-gsub(pattern,'.out',fullpath[h])
+			logfile<-gsub(pattern,'.log',fullpath[h])
+			faa<-gsub(pattern,'.faa',fullpath[h])
+			ffn<-gsub(pattern,'.ffn',fullpath[h])
 			
 			cmd<-paste(prodigal,' -i ',ingenome,' -a ',faa,' -d ',ffn,' -o ',outgenome,' &> ',logfile,sep='')
 		
