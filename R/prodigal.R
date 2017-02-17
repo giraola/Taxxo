@@ -130,9 +130,9 @@ prodigal<-function(path='.',
 	
 	system(paste('mkdir',outdir))	
 	
-	system(paste('mv ',path,'*.faa ',outdir,sep=''))
-	system(paste('mv ',path,'*.ffn ',outdir,sep=''))
-	system(paste('mv ',path,'*.out ',outdir,sep=''))
-	system(paste('mv ',path,'*.log ',outdir,sep=''))
+	system(paste('mv ',path,'/*.faa ',outdir,sep=''))
+	system(paste('mv ',path,'/*.ffn ',outdir,sep=''))
+	system(paste('mv ',path,'/*.out ',outdir,sep=''))
+	system(paste('mv ',path,'/*.log ',outdir,sep=''))
 	system(paste('mv prodigal.err',outdir))
 }
