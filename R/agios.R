@@ -216,7 +216,7 @@ agios<-function(
 				aloconver<-msaConvert(alignment,type='seqinr::alignment')
 				
 				dista<-dist.alignment(aliconver)^2
-				ident<-round(1-dista)*100,digits=2)
+				ident<-round((1-dista)*100,digits=2)
 
 				partial<-c(partial,ident)
 			}
@@ -335,7 +335,7 @@ agios<-function(
 				aloconver<-msaConvert(alignment,type='seqinr::alignment')
 				
 				dista<-dist.alignment(aliconver)^2
-				ident<-round(1-dista)*100,digits=2)
+				ident<-round((1-dista)*100,digits=2)
 
 				partial<-c(partial,ident)
 			}
