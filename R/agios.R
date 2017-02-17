@@ -17,7 +17,7 @@ agios<-function(
 	reference='all',
 	path='.',
 	outdir='agios_output',
-	proc=2)
+	proc=2
 
 	)
 			   
