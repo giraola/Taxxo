@@ -213,7 +213,7 @@ agios<-function(
 				partial<-NULL
 
 				alignment<-msa(inputSeqs=f,method='ClustalOmega',type='dna')
-				aloconver<-msaConvert(alignment,type='seqinr::alignment')
+				aliconver<-msaConvert(alignment,type='seqinr::alignment')
 				
 				dista<-dist.alignment(aliconver)^2
 				ident<-round((1-dista)*100,digits=2)
@@ -332,7 +332,7 @@ agios<-function(
 				partial<-NULL
 
 				alignment<-msa(inputSeqs=f,method='ClustalOmega',type='dna')
-				aloconver<-msaConvert(alignment,type='seqinr::alignment')
+				aliconver<-msaConvert(alignment,type='seqinr::alignment')
 				
 				dista<-dist.alignment(aliconver)^2
 				ident<-round((1-dista)*100,digits=2)
