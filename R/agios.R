@@ -211,8 +211,9 @@ agios<-function(
 			for (f in fastas){
 
 				partial<-NULL
-
-				alignment<-msa(inputSeqs=f,method='ClustalOmega',type='dna')
+				
+				aux<-capture.output(
+				alignment<-msa(inputSeqs=f,method='ClustalOmega',type='dna'))
 				aliconver<-msaConvert(alignment,type='seqinr::alignment')
 				
 				dista<-dist.alignment(aliconver)^2
@@ -330,8 +331,9 @@ agios<-function(
 			for (f in fastas){
 
 				partial<-NULL
-
-				alignment<-msa(inputSeqs=f,method='ClustalOmega',type='dna')
+			
+				aux<-capture.output(
+				alignment<-msa(inputSeqs=f,method='ClustalOmega',type='dna'))
 				aliconver<-msaConvert(alignment,type='seqinr::alignment')
 				
 				dista<-dist.alignment(aliconver)^2
