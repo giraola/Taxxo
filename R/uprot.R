@@ -145,7 +145,7 @@ uprot<-function(pattern='.faa',
   				
   					sc<-htab$Score
   				
-  					if (sc[1]!=sc[2]){
+  					if ((sc[1]!=sc[2]) & dimi==2){
   				
   						maxi<-max(htab$Score)
   						gene<-as.vector(htab[which(htab$Score==maxi),2])
