@@ -120,7 +120,9 @@ uprot<-function(pattern='.faa',
 			rl<-rl[which(!grepl("\\#",rl))]
 			rl<-gsub('[ ]+',' ',rl)
 			
-			if (length(rl)>0){
+			lr<-length(rl)
+			
+			if (lr>0){
 			
 				lst<-strsplit(rl,' ')
 					
@@ -137,12 +139,21 @@ uprot<-function(pattern='.faa',
 								 Score=score,
         	                  	 stringsAsFactors=F)
                           	 
-        	    dimi<-dim(htab)[1]
+        	    		dimi<-dim(htab)[1]
   			
   				if (dimi>1){
   				
-  					maxi<-max(htab$Score)
-  					gene<-as.vector(htab[which(htab$Score==maxi),2])
+  					sc<-htab$Score
+  				
+  					if (sc[1]!=sc[2]){
+  				
+  						maxi<-max(htab$Score)
+  						gene<-as.vector(htab[which(htab$Score==maxi),2])
+  						
+  					} else {
+  						
+  						gene<-as.vector(htab[1,2])
+  					}
   				
   				} else if (dimi==1){
   				
@@ -298,7 +309,7 @@ uprot<-function(pattern='.faa',
 	
 	} else {
 		
-		system(paste('mv uaprot.faa',outdir))
+		system(paste('mv uprot.faa',outdir))
 		system('rm -rf uprotdb*')
 	}
 			
