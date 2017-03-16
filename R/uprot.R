@@ -210,6 +210,8 @@ uprot<-function(pattern='.faa',
 					
 			} else {
 				
+				system(paste('touch',outfile))
+				
 				cat(paste(genoms[p],'_absent','\t',p,sep=''),sep='\n',file=absents,append=T)
 			}
 		}
@@ -222,17 +224,25 @@ uprot<-function(pattern='.faa',
  		multi<-list.files(pattern='.uprot.faa')
  		
  		for (m in multi){
- 			
- 			out<-gsub('.faa','.ali',m)
- 		
- 			aux<-capture.output(
-			alignment<-msa(inputSeqs=m,method='ClustalOmega',type='protein',order='input'))
-			aliconver<-msaConvert(alignment,type='seqinr::alignment')
 			
-			seqs<-lapply(aliconver$seq,s2c)
-			nams<-gsub(' ','',gsub('>','',system(paste("grep '>' ",m,sep=''),intern=T)))
+			if (file.info(m)$size>0){
+ 			
+ 				out<-gsub('.faa','.ali',m)
+ 		
+ 				aux<-capture.output(
+				alignment<-msa(inputSeqs=m,method='ClustalOmega',type='protein',order='input'))
+				aliconver<-msaConvert(alignment,type='seqinr::alignment')
+			
+				seqs<-lapply(aliconver$seq,s2c)
+				nams<-gsub(' ','',gsub('>','',system(paste("grep '>' ",m,sep=''),intern=T)))
 				
-			write.fasta(seqs,names=nams,file=out)
+				write.fasta(seqs,names=nams,file=out)
+				
+			} else {
+				
+				out<-gsub('.faa','.ali',m)
+				system(paste('touch',out))
+			}
 		}
 		
 		# Add absents
@@ -287,18 +297,21 @@ uprot<-function(pattern='.faa',
  		catmat<-NULL
  		
  		for (a in alis){
+			
+			if (file.info(a)$size>0){ 
  			
-			fasta<-read.fasta(a)
- 			sequs<-lapply(getSequence(fasta),toupper)
- 			smatx<-do.call(rbind,sequs)
+				fasta<-read.fasta(a)
+ 				sequs<-lapply(getSequence(fasta),toupper)
+ 				smatx<-do.call(rbind,sequs)
  			
- 			catmat<-cbind(catmat,smatx)
- 			catlis<-alply(catmat,1)
+ 				catmat<-cbind(catmat,smatx)
+ 				catlis<-alply(catmat,1)
  		
- 			nams<-getName(fasta)
- 			nams<-unlist(lapply(nams,function(x){strsplit(x,'_')[[1]][1]}))
+ 				nams<-getName(fasta)
+ 				nams<-unlist(lapply(nams,function(x){strsplit(x,'_')[[1]][1]}))
  			
- 			write.fasta(catlis,names=nams,file='universal_proteins.ali')
+ 				write.fasta(catlis,names=nams,file='universal_proteins.ali')
+			}
  		}
  	
 		system(paste('mv *uprot.faa',outdir))
