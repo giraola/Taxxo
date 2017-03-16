@@ -255,38 +255,41 @@ uprot<-function(pattern='.faa',
 				
 				# Open corresponding alignment
 				
-				badfile<-gsub('.absent','.uprot.ali',a)
-				fasta<-read.fasta(badfile)
-				sequs<-lapply(getSequence(fasta),toupper)
-				namos<-getName(fasta)
+				if (file.info(a)$size>0){
 				
-				gaps<-list()
-				gaps[[1]]<-rep('-',length(sequs[[1]]))
+					badfile<-gsub('.absent','.uprot.ali',a)
+					fasta<-read.fasta(badfile)
+					sequs<-lapply(getSequence(fasta),toupper)
+					namos<-getName(fasta)
 				
-				# Read file with absents
+					gaps<-list()
+					gaps[[1]]<-rep('-',length(sequs[[1]]))
 				
-				ab<-read.table(a,sep='\t',header=F)
+					# Read file with absents
 				
-				counter<-0
+					ab<-read.table(a,sep='\t',header=F)
 				
-				for (b in 1:dim(ab)[1]){
+					counter<-0
+				
+					for (b in 1:dim(ab)[1]){
 							
-					nam<-as.vector(ab[b,1])
-					pos<-as.vector(ab[b,2])+counter				
+						nam<-as.vector(ab[b,1])
+						pos<-as.vector(ab[b,2])+counter				
 		
-					counter<-counter+1
+						counter<-counter+1
 					
-					sequs1<-sequs[1:pos]
-					sequs2<-sequs[(pos+1):length(sequs)]
+						sequs1<-sequs[1:pos]
+						sequs2<-sequs[(pos+1):length(sequs)]
 
-					namos1<-namos[1:pos]
-					namos2<-namos[(pos+1):length(namos)]
+						namos1<-namos[1:pos]
+						namos2<-namos[(pos+1):length(namos)]
 					
-					sequs<-c(sequs1,gaps,sequs2)
-					namos<-c(namos1,nam,namos2)
-				}
+						sequs<-c(sequs1,gaps,sequs2)
+						namos<-c(namos1,nam,namos2)
+					}
 				
-				write.fasta(sequs,names=namos,file=badfile)
+					write.fasta(sequs,names=namos,file=badfile)
+				}
 			}
 		}
 
