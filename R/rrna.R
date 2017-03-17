@@ -17,29 +17,31 @@
 
 
 rrna<-function(path,
-			   pattern,
-			   outdir='rrna_out',
-			   subunit='16S',
-			   kingdom='bacteria',
-			   align=TRUE,
-			   multiple=FALSE,
-			   distance=TRUE,
-			   phylogeny=TRUE,
-			   ...)
-			   
-			   {
+	       pattern,
+	       outdir='rrna_out',
+	       subunit='16S',
+	       kingdom='bacteria',
+	       align=TRUE,
+	       multiple=FALSE,
+	       distance=TRUE,
+	       phylogeny=TRUE,
+	       ...)
+
+	{
 	
 	# Options #
 	
 	options(getClass.msg=FALSE)
+	
 	gw<-getwd()
+	
 	barrnap<-paste(system.file('barrnap',package='taxxo'),'/common/bin/barrnap',sep='')
 
 	# Dependencies #
 	
-	require(seqinr,quietly=T)
-	require(msa,quietly=T)
-	require(phangorn,quietly=T)
+	suppressMessages(require(seqinr,quietly=T))
+	suppressMessages(require(msa,quietly=T))
+	suppressMessages(require(phangorn,quietly=T))
 	
 	# Check input #
 	
