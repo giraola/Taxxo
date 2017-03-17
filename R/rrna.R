@@ -292,7 +292,7 @@ rrna<-function(path,
 			namali<-gsub('>','',system("grep '>' all.16S.fasta",intern=T))
 			
 			aux<-capture.output(
-			alignment<-msa(inputSeqs='all.16S.fasta',method='ClustalOmega',type='dna'))
+			alignment<-msa(inputSeqs='all.16S.fasta',method='ClustalOmega',type='dna',order='input'))
 			aliconver<-msaConvert(alignment,type='seqinr::alignment')
 			
 			seqs<-lapply(aliconver$seq,s2c)
@@ -305,7 +305,7 @@ rrna<-function(path,
 			namali<-gsub('>','',system("grep '>' all.23S.fasta",intern=T))
 			
 			aux<-capture.output(
-			alignment<-msa(inputSeqs='all.23S.fasta',method='ClustalO',type='dna'))
+			alignment<-msa(inputSeqs='all.23S.fasta',method='ClustalO',type='dna',order='input'))
 			aliconver<-msaConvert(alignment,type='seqinr::alignment')
 			
 			seqs<-lapply(aliconver$seq,s2c)
