@@ -120,6 +120,8 @@ uprot<-function(pattern='.faa',
 			rl<-rl[which(!grepl("\\#",rl))]
 			rl<-gsub('[ ]+',' ',rl)
 			
+			system('rm -rf out_tmp search_tmp')
+			
 			lr<-length(rl)
 			
 			if (lr>0){
@@ -161,14 +163,11 @@ uprot<-function(pattern='.faa',
   				}
   				
   				result[f,h]<-gene
-  				
-  				system('rm -rf search_tmp out_tmp')
-			}
+  			}
 		}
 	}
   			
   	system(paste('mkdir',outdir))
-  	#setwd(outdir)
   			
   	presence_absence_uprot<-result		
   	save(presence_absence_uprot,file='presence_absence_uprot.Rdata')				
