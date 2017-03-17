@@ -21,7 +21,7 @@ uprot<-function(pattern='.faa',
 			   
 			    {
 
-	# Options 
+	# Options #
 	
 	options(getClass.msg=FALSE)
 	gw<-getwd()
