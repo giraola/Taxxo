@@ -255,7 +255,10 @@ uprot<-function(pattern='.faa',
 				
 				# Open corresponding alignment
 				
-				if (file.info(a)$size>0){
+				lfiles<-length(flist)
+				lwc<-strsplit(system(paste('wc -l',a),intern=T),' ')[[1]][1]
+				
+				if (lfiles!=lwc){
 				
 					badfile<-gsub('.absent','.uprot.ali',a)
 					fasta<-read.fasta(badfile)
