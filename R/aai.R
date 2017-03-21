@@ -124,6 +124,8 @@ aai<-function(
 	
 			system(cmd1.1,wait=T)
 			system(cmd1.2,wait=T)
+			
+			system('rm -rf partial_* splitted_*')
 
 			# BLAST 2
 
@@ -144,6 +146,8 @@ aai<-function(
 			system(cmd2.1,wait=T)
 			system(cmd2.2,wait=T)
 			
+			system('rm -rf partial_* splitted_*')
+			
 			# RESULT
 
 			cmd3<-'cat blout1 blout2 > blout3'
@@ -157,14 +161,14 @@ aai<-function(
 			pairs<-table(paste(blout[,1],blout[,2],sep='_'))
 			brh<-names(pairs[which(pairs>1)])
 			
-			aai<-mean(blout[which(pairs%in%brh),3])
+			aai<-mean(blout[which(names(pairs)%in%brh),3])
 			
 			n1<-subjt2
 			n2<-subjt1
 			
 			result<-rbind(result,c(n1,n2,round(aai,digits=2)))
 			
-			system('rm -rf partial_* splitted_* blout*')
+			system('rm -rf blout*')
 		}
 
 		aai_result<-as.data.frame(result)
@@ -210,6 +214,8 @@ aai<-function(
 	
 				system(cmd1.1,wait=T)
 				system(cmd1.2,wait=T)
+				
+				system('rm -rf partial_* splitted_*')
 
 				# BLAST 2
 
@@ -229,6 +235,8 @@ aai<-function(
 	
 				system(cmd2.1,wait=T)
 				system(cmd2.2,wait=T)
+				
+				system('rm -rf partial_* splitted_*')
 			
 				# RESULT
 			
@@ -243,7 +251,7 @@ aai<-function(
 				pairs<-table(paste(blout[,1],blout[,2],sep='_'))
 				brh<-names(pairs[which(pairs>1)])
 			
-				aai<-mean(blout[which(pairs%in%brh),3])
+				aai<-mean(blout[which(names(pairs)%in%brh),3])
 			
 				n1<-subjt2
 				n2<-subjt1
