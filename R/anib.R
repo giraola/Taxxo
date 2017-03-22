@@ -41,9 +41,9 @@ anib<-function(pattern='.fna',
 	
 	# Dependencies #
 
-	library(foreach,quietly=T)
-	library(doMC,quietly=T)
-	library(seqinr,quietly=T)
+	suppressMessages(library(foreach,quietly=T))
+	suppressMessages(library(doMC,quietly=T))
+	suppressMessages(library(seqinr,quietly=T))
 		
 	# Define internal function #
 
