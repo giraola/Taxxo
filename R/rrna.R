@@ -31,7 +31,7 @@ rrna<-function(path,
 	
 	# Options #
 	
-	options(getClass.msg=FALSE)
+	options(getClass.msg=FALSE,warn=1)
 	
 	gw<-getwd()
 	
