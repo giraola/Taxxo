@@ -172,7 +172,7 @@ rrna<-function(path,
 							
 							contig<-which(snames==nam[g])
 							
-							if (std[g]=='+'){
+							if (as.vector(as.vector(std[g]))=='+'){
 				
 								gene<-sequen[[contig]][ini[g]:fin[g]]
 				
@@ -258,7 +258,7 @@ rrna<-function(path,
 							
 							contig<-which(snames==nam[g])
 
-							if (std[g]=='+'){
+							if (as.vector(std[g])=='+'){
 				
 								gene<-sequen[[contig]][ini[g]:fin[g]]
 				
