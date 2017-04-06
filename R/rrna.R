@@ -189,6 +189,8 @@ rrna<-function(path,
 				}
 				
 			} else if (subunit=='23S'){
+				
+				grp<-grep(subunit,sun)
 			
 				if (length(grp)==0){
 					
