@@ -94,7 +94,7 @@ rrna<-function(path,
 			mssg<-paste('No ',subunit,' gene found in genome ',fnams[f],sep='')
 			cat(mssg,file='rrna.err',append=T,sep='\n')
 			
-			warning(mssg)
+			warning(mssg,noBreaks.=T)
 			
 		} else {
 
