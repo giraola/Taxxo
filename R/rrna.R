@@ -36,14 +36,6 @@ rrna<-function(path,
 	gw<-getwd()
 	
 	barrnap<-paste(system.file('barrnap',package='taxxo'),'/common/bin/barrnap',sep='')
-
-	# Warning function #
-	
-	war<-function(x){
-		
-		suppressWarnings(w<-warning('Warning:',x))
-		message(w)
-	}
 	
 	# Dependencies #
 	
@@ -102,7 +94,7 @@ rrna<-function(path,
 			mssg<-paste('No ',subunit,' gene found in genome ',fnams[f],sep='')
 			cat(mssg,file='rrna.err',append=T,sep='\n')
 			
-			war(mssg)
+			message(mssg)
 			
 		} else {
 
