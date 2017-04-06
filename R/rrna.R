@@ -31,7 +31,7 @@ rrna<-function(path,
 	
 	# Options #
 	
-	options(getClass.msg=FALSE,warn=1)
+	options(getClass.msg=FALSE,warn=2)
 	
 	gw<-getwd()
 	
@@ -94,7 +94,7 @@ rrna<-function(path,
 			mssg<-paste('No ',subunit,' gene found in genome ',fnams[f],sep='')
 			cat(mssg,file='rrna.err',append=T,sep='\n')
 			
-			warning(mssg,noBreaks.=T)
+			warning(mssg)
 			
 		} else {
 
