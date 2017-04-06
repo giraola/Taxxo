@@ -31,7 +31,7 @@ rrna<-function(path,
 	
 	# Options #
 	
-	options(getClass.msg=FALSE,warn=2)
+	options(getClass.msg=FALSE,warn=1)
 	
 	gw<-getwd()
 	
@@ -94,7 +94,7 @@ rrna<-function(path,
 			mssg<-paste('No ',subunit,' gene found in genome ',fnams[f],sep='')
 			cat(mssg,file='rrna.err',append=T,sep='\n')
 			
-			message(mssg)
+			warning(mssg)
 			
 		} else {
 
@@ -111,7 +111,7 @@ rrna<-function(path,
 					mssg<-paste('No ',subunit,' gene found in genome ',fnams[f],sep='')
 					cat(mssg,file='rrna.err',append=T,sep='\n')
 			
-					stop(mssg)
+					warning(mssg)
 					
 				} else if (length(grp)==1){
 						
