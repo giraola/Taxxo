@@ -224,7 +224,10 @@ uprot<-function(pattern='.faa',
  		
  		for (m in multi){
 			
-			if (file.info(m)$size>0){
+			numse<-system(paste('grep -c ">" ',m,sep=''),intern=T)
+			fsize<-file.info(m)$size
+			
+			if (numse > 1 & fsize > 0){
  			
  				out<-gsub('.faa','.ali',m)
  		
