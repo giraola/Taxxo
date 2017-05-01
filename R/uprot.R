@@ -262,7 +262,7 @@ uprot<-function(pattern='.faa',
 				# Open corresponding alignment
 				
 				lfiles<-length(flist)
-				lwc<-strsplit(system(paste('wc -l',a),intern=T),' ')[[1]][1]
+				lwc<-length(readLines(a))
 				
 				if (lfiles!=lwc){
 				
@@ -293,11 +293,11 @@ uprot<-function(pattern='.faa',
 						namos1<-namos[1:pos]
 						namos2<-namos[(pos+1):length(namos)]
 					
-						sequs<-c(sequs1,gaps,sequs2)
-						namos<-c(namos1,nam,namos2)
+						sequs3<-c(sequs1,gaps,sequs2)
+						namos3<-c(namos1,nam,namos2)
 					}
 				
-					write.fasta(sequs,names=namos,file=badfile)
+					write.fasta(sequs3,names=namos3,file=badfile)
 				}
 			}
 		}
