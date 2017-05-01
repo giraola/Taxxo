@@ -239,6 +239,10 @@ uprot<-function(pattern='.faa',
 				nams<-gsub(' ','',gsub('>','',system(paste("grep '>' ",m,sep=''),intern=T)))
 				
 				write.fasta(seqs,names=nams,file=out)
+			
+			} else if (numse == 1 & fsize > 0){
+				
+				cat(readLines(m),sep='\n',file=gsub('.faa','.ali',m))
 				
 			} else {
 				
@@ -315,8 +319,9 @@ uprot<-function(pattern='.faa',
  				catmat<-cbind(catmat,smatx)
  				catlis<-alply(catmat,1)
  		
- 				nams<-getName(fasta)
- 				nams<-unlist(lapply(nams,function(x){strsplit(x,'_')[[1]][1]}))
+				nams<-gsub('>','',system(paste('grep ">" ,a',sep=''),intern=T))
+ 				#nams<-getName(fasta)
+ 				#nams<-unlist(lapply(nams,function(x){strsplit(x,'_')[[1]][1]}))
  			
  				write.fasta(catlis,names=nams,file='universal_proteins.ali')
 			}
