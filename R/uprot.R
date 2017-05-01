@@ -319,7 +319,7 @@ uprot<-function(pattern='.faa',
  				catmat<-cbind(catmat,smatx)
  				catlis<-alply(catmat,1)
  		
-				nams<-gsub('>','',system(paste('grep ">" ,a',sep=''),intern=T))
+				nams<-gsub('>','',system(paste('grep ">" ',a,sep=''),intern=T))
  				#nams<-getName(fasta)
  				#nams<-unlist(lapply(nams,function(x){strsplit(x,'_')[[1]][1]}))
  			
