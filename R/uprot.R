@@ -333,8 +333,9 @@ uprot<-function(pattern='.faa',
  				catmat<-cbind(catmat,smatx)
  				catlis<-alply(catmat,1)
  		
-				nams<-gsub('>','',system(paste('grep ">" ',a,sep=''),intern=T))
- 				#nams<-getName(fasta)
+				nams<-gsub(pattern,'',fnams)
+				#nams<-gsub('>','',system(paste('grep ">" ',a,sep=''),intern=T))
+				#nams<-getName(fasta)
  				#nams<-unlist(lapply(nams,function(x){strsplit(x,'_')[[1]][1]}))
  			
  				write.fasta(catlis,names=nams,file='universal_proteins.ali')
@@ -357,23 +358,30 @@ uprot<-function(pattern='.faa',
 		
 		setwd(outdir)
 		
-		if (phylogeny=='NJ'){
+		if (length(flist)<3){
+			
+			stop('Makes sense to build a tree with two tips?')
+			
+		} else {
 		
-			upali<-read.fasta('universal_proteins.ali')
-			asali<-as.alignment(upali)
-			dista<-dist.alignment(asali)^2			
-			tre<-nj(dista)
+			if (phylogeny=='NJ'){
+		
+				upali<-read.fasta('universal_proteins.ali')
+				asali<-as.alignment(upali)
+				dista<-dist.alignment(asali)^2			
+				tre<-nj(dista)
 
-			write.tree(tre,file='NJ.uprot.tree.nwk')
+				write.tree(tre,file='NJ.uprot.tree.nwk')
 					
-		} else if (phylogeny=='ML'){
+			} else if (phylogeny=='ML'){
 			
-			cmd<-paste(fasttree,'universal_proteins.ali > ML.uprot.tree.nwk')
-			
-			system(cmd,ignore.stderr=T)
+				cmd<-paste(fasttree,'universal_proteins.ali > ML.uprot.tree.nwk')
+				
+				system(cmd,ignore.stderr=T)
+			}
 		}
 	
-	} else if (align==FALSE & phylogeny==TRUE){
+	} else if (align==FALSE & phylogeny!='NO'){
 		
 		stop('For tree building both "align" and "phylogeny" must be set!')
 	}
