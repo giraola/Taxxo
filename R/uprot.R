@@ -283,21 +283,35 @@ uprot<-function(pattern='.faa',
 					for (b in 1:dim(ab)[1]){
 							
 						nam<-as.vector(ab[b,1])
-						pos<-as.vector(ab[b,2])+counter				
+						pos<-as.vector(ab[b,2])+counter			
 		
 						counter<-counter+1
-					
-						sequs1<-sequs[1:pos]
-						sequs2<-sequs[(pos+1):length(sequs)]
+						
+						if (pos==1){
+							
+							sequsf<-c(gaps,sequs)
+							namosf<-c(nam,namos)
+							
+						} else if (pos==length(sequs)){
+							
+							sequsf<-c(sequs,gaps)
+							namosf<-c(namos,nam)
+						
+						} else {
+						
+							sequs1<-sequs[1:pos]
+							sequs2<-sequs[(pos+1):length(sequs)]
 
-						namos1<-namos[1:pos]
-						namos2<-namos[(pos+1):length(namos)]
+							namos1<-namos[1:pos]
+							namos2<-namos[(pos+1):length(namos)]
 					
-						sequs3<-c(sequs1,gaps,sequs2)
-						namos3<-c(namos1,nam,namos2)
+							sequsf<-c(sequs1,gaps,sequs2)
+							namosf<-c(namos1,nam,namos2)
+						
+						}
 					}
-				
-					write.fasta(sequs3,names=namos3,file=badfile)
+							
+					write.fasta(sequsf,names=namosf,file=badfile)
 				}
 			}
 		}
