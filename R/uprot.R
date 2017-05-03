@@ -252,7 +252,7 @@ uprot<-function(pattern='.faa',
 				lesequ<-length(sequs2[[1]])
 				gaps<-rep('-',lesequ)
 			
-				sequs2[whn]<-gaps
+				sequs2[whn]<-replicate(length(whn),list(gaps))
 			
 				write.fasta(sequs2,names=namos,file=gsub('.faa','.ali',m))
 				
@@ -262,9 +262,8 @@ uprot<-function(pattern='.faa',
 				
 				lesequ<-length(sequs[whs][[1]])
 				gaps<-rep('-',lesequ)
-				length(whn)
 				
-				sequs[[whn]]<-
+				sequs[whn]<-replicate(length(whn),list(gaps))
 				
 				write.fasta(sequs,names=namos,file=gsub('.faa','.ali',m))
 			}	
