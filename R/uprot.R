@@ -198,7 +198,9 @@ uprot<-function(pattern='.faa',
  		prots<-as.vector(presence_absence_uprot[,u])
 			
 		for (p in 1:length(prots)){
-				
+			
+			system(paste('touch',outfile))
+
 			prot<-prots[p]
 				
 			if (is.na(prot)==F){
@@ -209,9 +211,9 @@ uprot<-function(pattern='.faa',
 					
 			} else {
 				
-				system(paste('touch',outfile))
-				
-				cat(paste(genoms[p],'_absent','\t',p,sep=''),sep='\n',file=absents,append=T)
+				cat(paste('>',genome[p],'_absent',sep=''),sep='\n',file=outfile,append=T)
+				#cat(paste(genoms[p],'_absent','\t',p,sep=''),sep='\n',file=outfile,append=T)
+				cat(c2s(rep('-',10)),sep='\n',file=outfile,append=T)
 			}
 		}
 	}
@@ -224,96 +226,48 @@ uprot<-function(pattern='.faa',
  		
  		for (m in multi){
 			
-			numse<-system(paste('grep -c ">" ',m,sep=''),intern=T)
-			fsize<-file.info(m)$size
+			fasta<-read.fasta(m)
+			sequs<-lapply(getSequence(fasta),toupper)
+			rline<-readLines(m)
+			namos<-gsub('>','',rline[grep('>',rline)])
 			
-			if (numse > 1 & fsize > 0){
- 			
- 				out<-gsub('.faa','.ali',m)
- 		
- 				aux<-capture.output(
-				alignment<-msa(inputSeqs=m,method='ClustalOmega',type='protein',order='input'))
+			whn<-which(lapply(lapply(sequs,unique),length)==1)
+			whs<-setdiff(1:length(namos),whn)
+			
+			sequs[whn]<-sequs[whs[[1]]]
+			namos2<-paste('n',rep(1:length(namos)),sep='')
+			
+			evalu<-unlist(lapply(apply(do.call(rbind,sequs),2,unique),length))
+			leval<-length(which(evalu>1))
+			
+			if (leval>0){
+				
+				write.fasta(sequs,names=namos2,file='auxalign')
+			
+				aux<-capture.output(
+				alignment<-msa(inputSeqs='auxalign',method='ClustalOmega',type='protein',order='input'))
 				aliconver<-msaConvert(alignment,type='seqinr::alignment')
 			
-				seqs<-lapply(aliconver$seq,s2c)
-				nams<-gsub(' ','',gsub('>','',system(paste("grep '>' ",m,sep=''),intern=T)))
-				
-				write.fasta(seqs,names=nams,file=out)
+				sequs2<-lapply(getSequence(aliconver),toupper)
+				lesequ<-length(sequs2[[1]])
+				gaps<-rep('-',lesequ)
 			
-			} else if (numse == 1 & fsize > 0){
+				sequs2[whn]<-gaps
+			
+				write.fasta(sequs2,names=namos,file=gsub('.faa','.ali',m))
 				
-				cat(readLines(m),sep='\n',file=gsub('.faa','.ali',m))
+				system('rm -rf auxalign')
 				
 			} else {
 				
-				out<-gsub('.faa','.ali',m)
-				system(paste('touch',out))
-			}
-		}
-		
-		# Add absents
-		
-		abfiles<-list.files(pattern='.absent')
-		
-		if (length(abfiles)>0){
-			
-			for (a in abfiles){
+				lesequ<-length(sequs[whs][[1]])
+				gaps<-rep('-',lesequ)
+				length(whn)
 				
-				# Open corresponding alignment
+				sequs[[whn]]<-
 				
-				lfiles<-length(flist)
-				lwc<-length(readLines(a))
-				
-				if (lfiles!=lwc){
-				
-					badfile<-gsub('.absent','.uprot.ali',a)
-					fasta<-read.fasta(badfile)
-					sequs<-lapply(getSequence(fasta),toupper)
-					namos<-getName(fasta)
-				
-					gaps<-list()
-					gaps[[1]]<-rep('-',length(sequs[[1]]))
-				
-					# Read file with absents
-				
-					ab<-read.table(a,sep='\t',header=F)
-				
-					counter<-0
-				
-					for (b in 1:dim(ab)[1]){
-							
-						nam<-as.vector(ab[b,1])
-						pos<-as.vector(ab[b,2])+counter			
-		
-						counter<-counter+1
-						
-						if (pos==1){
-							
-							sequsf<-c(gaps,sequs)
-							namosf<-c(nam,namos)
-							
-						} else if (pos==length(sequs)){
-							
-							sequsf<-c(sequs,gaps)
-							namosf<-c(namos,nam)
-						
-						} else {
-						
-							sequs1<-sequs[1:pos]
-							sequs2<-sequs[(pos+1):length(sequs)]
-
-							namos1<-namos[1:pos]
-							namos2<-namos[(pos+1):length(namos)]
-					
-							sequsf<-c(sequs1,gaps,sequs2)
-							namosf<-c(namos1,nam,namos2)
-						
-						}
-					}
-							
-					write.fasta(sequsf,names=namosf,file=badfile)
-				}
-			}
+				write.fasta(sequs,names=namos,file=gsub('.faa','.ali',m))
+			}	
 		}
 
  		# Concatenate alignment
@@ -346,7 +300,6 @@ uprot<-function(pattern='.faa',
 		system(paste('mv *uprot.ali',outdir))
 		system(paste('mv universal_proteins.ali',outdir))
 		system('rm -rf uprotdb*')
-		system('rm -rf *.absent')
 	
 	} else {
 		
