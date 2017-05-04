@@ -193,7 +193,7 @@ uprot<-function(pattern='.faa',
  	for (u in 1:length(uprots)){
  			
  		outfile<-paste(uprots[u],'.uprot.faa',sep='')
-		absents<-paste(uprots[u],'.absent',sep='')
+		#absents<-paste(uprots[u],'.absent',sep='')
  			
  		prots<-as.vector(presence_absence_uprot[,u])
 			
@@ -237,18 +237,18 @@ uprot<-function(pattern='.faa',
 			sequs[whn]<-sequs[whs[[1]]]
 			namos2<-paste('n',rep(1:length(namos)),sep='')
 			
-			evalu<-unlist(lapply(apply(do.call(rbind,sequs),2,unique),length))
-			leval<-length(which(evalu>1))
+			evalu<-unique(unlist(lapply(sequs,length)))
+			leval<-length(evalu)
 			
-			if (leval>0){
+			if (leval>1){
 				
-				write.fasta(sequs,names=namos2,file='auxalign')
+				write.fasta(sequs,names=namos2,file='auxalign.fa')
 			
 				aux<-capture.output(
-				alignment<-msa(inputSeqs='auxalign',method='ClustalOmega',type='protein',order='input'))
+				alignment<-msa(inputSeqs='auxalign.fa',method='ClustalOmega',type='protein',order='input'))
 				aliconver<-msaConvert(alignment,type='seqinr::alignment')
 			
-				sequs2<-lapply(getSequence(aliconver),toupper)
+				sequs2<-lapply(as.list(aliconver$seq),s2c)
 				lesequ<-length(sequs2[[1]])
 				gaps<-rep('-',lesequ)
 			
@@ -256,7 +256,7 @@ uprot<-function(pattern='.faa',
 			
 				write.fasta(sequs2,names=namos,file=gsub('.faa','.ali',m))
 				
-				system('rm -rf auxalign')
+				system('rm -rf auxalign.fa')
 				
 			} else {
 				
