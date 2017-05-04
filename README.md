@@ -1,5 +1,8 @@
 ## Updates
 
+**04/05/17**
+- Fixed issue with uprot() alignments.
+
 **06/01/17**
 - Full user manual available in the project's wiki.
 
