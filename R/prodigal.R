@@ -51,6 +51,8 @@ prodigal<-function(path='.',
 		return(s)
 	}
 	
+	gw<-getwd()
+	
 	system('touch prodigal.err')
 	
 	prodigal_parallel<-function(z){
@@ -135,4 +137,16 @@ prodigal<-function(path='.',
 	system(paste('mv ',path,'/*.out ',outdir,sep=''))
 	system(paste('mv ',path,'/*.log ',outdir,sep=''))
 	system(paste('mv ',path,'/prodigal.err ',outdir,sep=''))
+	
+	setwd(outdir)
+	
+	f1<-list.files()
+	
+	for (f in f1){
+		
+		cmd<-paste("sed 's/#/_/g' ",f," > aux1 ; mv aux1 ",f,sep='')
+		system(cmd)
+	}
+	
+	setwd(gw)
 }
