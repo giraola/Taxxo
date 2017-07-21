@@ -32,7 +32,7 @@ uprot<-function(pattern='.faa',
 	suppressMessages(require(seqinr,quietly=T))
 	suppressMessages(require(foreach,quietly=T))
 	suppressMessages(require(doMC,quietly=T))
-	suppressMessages(require(msa,quietly=T))
+	#suppressMessages(require(msa,quietly=T))
 	suppressMessages(require(plyr,quietly=T))
 	suppressMessages(require(ape,quietly=T))
 
@@ -50,6 +50,7 @@ uprot<-function(pattern='.faa',
 	
 	if (os=='linux'){
 	
+		clustalo<-paste(system.file('clustalo',package='taxxo'),'/linux/clustalo',sep='')
 		hmmsearch<-paste(system.file('hmmer3',package='taxxo'),'/linux/hmmsearch',sep='')
 		bldbcd<-paste(system.file('blast',package='taxxo'),'/linux/blastdbcmd',sep='')
 		mkbldb<-paste(system.file('blast',package='taxxo'),'/linux/makeblastdb',sep='')
@@ -57,6 +58,7 @@ uprot<-function(pattern='.faa',
 		
 	} else if (os=='darwin'){
 		
+		clustalo<-paste(system.file('clustalo',package='taxxo'),'/darwin/clustalo',sep='')
 		hmmsearch<-paste(system.file('hmmer3',package='taxxo'),'/darwin/hmmsearch',sep='')
 		bldbcd<-paste(system.file('blast',package='taxxo'),'/darwin/blastdbcmd',sep='')
 		mkbldb<-paste(system.file('blast',package='taxxo'),'/darwin/makeblastdb',sep='')
@@ -244,11 +246,21 @@ uprot<-function(pattern='.faa',
 				
 				write.fasta(sequs,names=namos2,file='auxalign.fa')
 			
-				aux<-capture.output(
-				alignment<-msa(inputSeqs='auxalign.fa',method='ClustalOmega',type='protein',order='input'))
-				aliconver<-msaConvert(alignment,type='seqinr::alignment')
+				cmd<-paste(clustalo,
+					   ' -i auxalign.fa -o auxalign.ali ',
+					   '--threads ',proc,
+					   ' --output-order=input-order',
+					   sep='')
+				
+				system(cmd)
+				
+				#aux<-capture.output(
+				#alignment<-msa(inputSeqs='auxalign.fa',method='ClustalOmega',type='protein',order='input'))
+				#aliconver<-msaConvert(alignment,type='seqinr::alignment')
 			
-				sequs2<-lapply(as.list(aliconver$seq),s2c)
+				fali<-read.fasta('auxalign.ali')
+				
+				sequs2<-lapply(getSequence(fali),toupper)
 				lesequ<-length(sequs2[[1]])
 				gaps<-rep('-',lesequ)
 			
@@ -256,7 +268,7 @@ uprot<-function(pattern='.faa',
 			
 				write.fasta(sequs2,names=namos,file=gsub('.faa','.ali',m))
 				
-				system('rm -rf auxalign.fa')
+				system('rm -rf auxalign.*')
 				
 			} else {
 				
@@ -330,6 +342,10 @@ uprot<-function(pattern='.faa',
 				cmd<-paste(fasttree,'universal_proteins.ali > ML.uprot.tree.nwk')
 				
 				system(cmd,ignore.stderr=T)
+			
+			} else {
+				
+				stop('Parameter "phylogeny" must be set to NJ or ML')
 			}
 		}
 	
