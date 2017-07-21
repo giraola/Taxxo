@@ -136,7 +136,7 @@ prodigal<-function(path='.',
 	system(paste('mv ',path,'/*.ffn ',outdir,sep=''))
 	system(paste('mv ',path,'/*.out ',outdir,sep=''))
 	system(paste('mv ',path,'/*.log ',outdir,sep=''))
-	system(paste('mv ',path,'/prodigal.err ',outdir,sep=''))
+	system(paste('mv ',path,'prodigal.err ',outdir,sep=''))
 	
 	setwd(outdir)
 	
