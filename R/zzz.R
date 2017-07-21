@@ -1,8 +1,9 @@
 .onLoad<-function(...){
 		
 	# Dependencies
-		
-	packages.needed<-c('msa','ape','seqinr','doMC','foreach','plyr')
+	
+	packages.needed<-c('ape','seqinr','doMC','foreach','plyr')
+	#packages.needed<-c('msa','ape','seqinr','doMC','foreach','plyr')
 	packages.installed<-installed.packages()[,'Package']
 	
 	dif<-setdiff(packages.needed,packages.installed)
@@ -23,6 +24,7 @@
 
 	if (os=='linux'){
 
+		clustalo_linux<-paste(system.file('clustalo',package='taxxo'),'/linux/',sep='')
 		hmmer_linux<-paste(system.file('hmmer3',package='taxxo'),'/linux/',sep='')
 		blast_linux<-paste(system.file('blast',package='taxxo'),'/linux/',sep='')
 		prodigal_linux<-paste(system.file('prodigal',package='taxxo'),'/linux/',sep='')
@@ -52,6 +54,7 @@
 			system(paste('rm -rf ',lpl,sep=''),ignore.stdout=T)
 		}
 		
+		system(paste('chmod +x ',clustalo_linux,'*',sep=''),ignore.stdout=T,ignore.stderr=T)
 		system(paste('chmod +x ',hmmer_linux,'*',sep=''),ignore.stdout=T,ignore.stderr=T)
 		system(paste('chmod +x ',blast_linux,'*',sep=''),ignore.stdout=T,ignore.stderr=T)
 		system(paste('chmod +x ',prodigal_linux,'prodigal',sep=''),ignore.stdout=T,ignore.stderr=T)
@@ -61,6 +64,7 @@
 		
 	} else if (os=='darwin'){
 	
+		clustalo_darwin<-paste(system.file('clustalo',package='taxxo'),'/darwin',sep='')
 		hmmer_darwin<-paste(system.file('hmmer3',package='taxxo'),'/darwin/',sep='')
 		blast_darwin<-paste(system.file('blast',package='taxxo'),'/darwin/',sep='')
 		prodigal_darwin<-paste(system.file('prodigal',package='taxxo'),'/darwin/',sep='')
@@ -90,6 +94,7 @@
 			system(paste('rm -rf ',lpd,sep=''),ignore.stdout=T)
 		}
 		
+		system(paste('chmod +x ',clustalo_darwin,'*',sep=''),ignore.stdout=T,ignore.stderr=T)
 		system(paste('chmod +x ',hmmer_darwin,'*',sep=''),ignore.stdout=T,ignore.stderr=T)
 		system(paste('chmod +x ',blast_darwin,'*',sep=''),ignore.stdout=T,ignore.stderr=T)
 		system(paste('chmod +x ',prodigal_darwin,'prodigal',sep=''),ignore.stdout=T,ignore.stderr=T)
