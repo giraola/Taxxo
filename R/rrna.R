@@ -40,7 +40,7 @@ rrna<-function(path,
 	# Dependencies #
 	
 	suppressMessages(require(seqinr,quietly=T))
-	suppressMessages(require(msa,quietly=T))
+	#suppressMessages(require(msa,quietly=T))
 	suppressMessages(require(phangorn,quietly=T))
 	
 	# Check input #
@@ -293,28 +293,45 @@ rrna<-function(path,
 		if (subunit=='16S'){
 			
 			system('cat *.16S.fasta > all.16S.fasta')
-			namali<-gsub('>','',system("grep '>' all.16S.fasta",intern=T))
+			#namali<-gsub('>','',system("grep '>' all.16S.fasta",intern=T))
 			
-			aux<-capture.output(
-			alignment<-msa(inputSeqs='all.16S.fasta',method='ClustalOmega',type='dna',order='input'))
-			aliconver<-msaConvert(alignment,type='seqinr::alignment')
+			cmd<-paste(clustalo,
+					   ' -i all.16S.fasta -o alignment.16S.fasta ',
+					   '--threads ',proc,
+					   ' --output-order=input-order',
+					   sep='')
+				
+			system(cmd)
 			
-			seqs<-lapply(aliconver$seq,s2c)
+			#aux<-capture.output(
+			#alignment<-msa(inputSeqs='all.16S.fasta',method='ClustalOmega',type='dna',order='input'))
+			#aliconver<-msaConvert(alignment,type='seqinr::alignment')
 			
-			write.fasta(seqs,names=namali,file='alignment.16S.fasta')
+			#seqs<-lapply(aliconver$seq,s2c)
+			
+			#write.fasta(seqs,names=namali,file='alignment.16S.fasta')
 			
 		} else if (subunit=='23S'){
 			
 			system('cat *.23S.fasta > all.23S.fasta')
-			namali<-gsub('>','',system("grep '>' all.23S.fasta",intern=T))
 			
-			aux<-capture.output(
-			alignment<-msa(inputSeqs='all.23S.fasta',method='ClustalO',type='dna',order='input'))
-			aliconver<-msaConvert(alignment,type='seqinr::alignment')
+			cmd<-paste(clustalo,
+				   ' -i all.23S.fasta -o alignment.23S.fasta ',
+				   '--threads ',proc,
+				   ' --output-order=input-order',
+				   sep='')
+				
+			system(cmd)
 			
-			seqs<-lapply(aliconver$seq,s2c)
+			#namali<-gsub('>','',system("grep '>' all.23S.fasta",intern=T))
 			
-			write.fasta(seqs,names=namali,file='alignment.23S.fasta')
+			#aux<-capture.output(
+			#alignment<-msa(inputSeqs='all.23S.fasta',method='ClustalO',type='dna',order='input'))
+			#aliconver<-msaConvert(alignment,type='seqinr::alignment')
+			
+			#seqs<-lapply(aliconver$seq,s2c)
+			
+			#write.fasta(seqs,names=namali,file='alignment.23S.fasta')
 		}			
 	}
 	
