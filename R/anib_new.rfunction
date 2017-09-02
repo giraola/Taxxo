@@ -1,4 +1,4 @@
-#' anib
+#' anib_new
 #'
 #' Calculates ANIb (Average Nucleotide Identity using Blast) values for all genomes present in a directory.
 #' @param path is the full path to where genomes assemblies in fasta format are placed.
@@ -11,7 +11,7 @@
 #' @examples
 #' anib(path='.',pattern='.fna',reference='all',outdir='anib_result',proc=2)
 
-anib <- function(
+anib_new <- function(
 
 			pattern='.fna',
 			reference='all',
