@@ -199,7 +199,7 @@ anib_new <- function(
 				if (file.info(blout2)$size>0) {
 				
 					tab2     <- read.csv(blout2,sep='\t',header=F)
-					tab2[,6] <- (tab1[,3]-tab1[,5])/tab1[,4]	
+					tab2[,6] <- (tab2[,3]-tab2[,5])/tab2[,4]	
 					ani2     <- mean(tab2[which(tab2[,6]>=cmin & tab2[,2]>=imin),2])
 				
 				} else {
