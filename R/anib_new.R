@@ -65,6 +65,8 @@ anib_new <- function(
 	suppressMessages(library(doMC,quietly=T))
 	suppressMessages(library(seqinr,quietly=T))
 	suppressMessages(library(Biostrings,quietly=T))
+	suppressMessages(library(parallel,quietly=T))
+
 	
 	# Define internal function #
 
@@ -132,32 +134,40 @@ anib_new <- function(
 		
 		setwd('blast_databases')
 		
-		for (g in 1:length(genomes)) {
+		fdatabase <- function(f) {
 			
 			cmd1 <- paste(mkbldb,
-				      ' -in .',genomes[g],
+				      ' -in .',genomes[f],
 				      ' -dbtype nucl ',
-				      ' -title ',g.names[g],
-				      ' -out ',g.names[g],
+				      ' -title ',g.names[f],
+				      ' -out ',g.names[f],
 				      sep='')
 			
 			system(cmd1,ignore.stderr=T,ignore.stdout=T)
-		}
+			
+			}
 		
-		setwd('../')
+		mclapply(1:length(genomes),fdatabase,mc.cores=proc) -> aux1
+		
+		rm(aux1)
 		
 	} else if (soft=='hsblastn') {
 		
 		setwd('blast_databases')
 		
-		for (g in 1:length(genomes)) {
+		fdatabase <- function(f) {
 			
-			cmd1 <- paste(hsblastn,' index .',genomes[g],sep='')
+			cmd2 <- paste(hsblastn,' index .',genomes[f],sep='')
 			
-			system(cmd1,ignore.stderr=T,ignore.stdout=T)
-		}
+			system(cmd2,ignore.stderr=T,ignore.stdout=T)
+			
+			}
+		
+		mclapply(1:length(genomes),fdatabase,mc.cores=proc) -> aux2
 		
 		system('mv ../*.header ../*.sa ../*.sequence ../*.bwt .')
+		
+		rm(aux2)
 		
 	} else {
 		
