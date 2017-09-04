@@ -62,7 +62,8 @@ anib_new <- function(
 	suppressMessages(library(foreach,quietly=T))
 	suppressMessages(library(doMC,quietly=T))
 	suppressMessages(library(seqinr,quietly=T))
-		
+	suppressMessages(library(Biostrings,quietly=T))
+	
 	# Define internal function #
 
 	chunker <- function(m,n){
@@ -151,7 +152,13 @@ anib_new <- function(
 				
 				fragms <- paste('fragment',seq(1:llen),sep='_')
 				
-				write.fasta(lseq2,names=fragms,file=query)
+				s1     <- lapply(lseq2,c2s)
+				s2     <- lapply(s1,DNAString)
+				s3     <- DNAStringSet(s2)
+				
+				names(s3) <- fragms
+				
+				writeXStringSet(s3,file=query,format='fasta')
 
 				blcmd1<-paste(blastn," -query ",query," -subject ",subjt1,
 							  " -xdrop_gap_final 150 ",
@@ -190,7 +197,13 @@ anib_new <- function(
 				
 				fragms <- paste('fragment',seq(1:llen),sep='_')
 				
-				write.fasta(lseq2,names=fragms,file=query)
+				s1     <- lapply(lseq2,c2s)
+				s2     <- lapply(s1,DNAString)
+				s3     <- DNAStringSet(s2)
+				
+				names(s3) <- fragms
+				
+				writeXStringSet(s3,file=query,format='fasta')
 
 				blcmd2 <- paste(blastn," -query ",query," -subject ",subjt1,
 						 	  " -xdrop_gap_final 150 ",
