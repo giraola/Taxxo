@@ -151,6 +151,8 @@ anib_new <- function(
 		
 		rm(aux1)
 		
+		setwd('../')
+		
 	} else if (soft=='hsblastn') {
 		
 		setwd('blast_databases')
@@ -168,6 +170,8 @@ anib_new <- function(
 		system('mv ../*.header ../*.sa ../*.sequence ../*.bwt .')
 		
 		rm(aux2)
+		
+		setwd('../')
 		
 	} else {
 		
