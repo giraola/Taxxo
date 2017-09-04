@@ -122,21 +122,6 @@ anib_new <- function(
 		proc <- length(genomes)
 	}
 	
-	# Choose software #
-	
-	if (soft=='hs-blast') {
-		
-		bls <- hsblastn
-	
-	} else if (soft=='blastn') {
-		
-		bls <- blastn
-		
-	} else {
-		
-		stop('Parameter "soft" must be set to "blastn" or "hs-blastn"'.)
-	}
-
 	# ANIb parallel #
 	
 	aniparallel <- function(y) {
