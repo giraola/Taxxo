@@ -409,6 +409,7 @@ anib_new <- function(
 		}
 	}
 	
+	system('rm -rf blast_databases')
 	system(paste('mkdir',outdir))
 	system(paste('mv anib_result.Rdata',outdir))
 }
