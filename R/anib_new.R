@@ -177,8 +177,7 @@ anib_new <- function(
 				# BLAST 1
 
 				query1 <- comb[1,i]
-				subjt1 <- comb[2,i]
-			
+				
 				blout1 <- paste('blout1',y,i,sep='.')
 				query  <- paste('query1',y,i,'fasta',sep='.')
 
@@ -200,8 +199,11 @@ anib_new <- function(
 				writeXStringSet(s3,file=query,format='fasta')
 				
 				if (soft=='blastn') {
+							
+					dbase1 <- gsub('//','/',
+						      paste(path,'/blast_databases/',gsub('.fna','',comb[2,i]),sep=''))
 
-					blcmd1 <- paste(blastn," -query ",query," -subject ",subjt1,
+					blcmd1 <- paste(blastn," -query ",query," -db ",dbase1,
 								  " -xdrop_gap_final 150 ",
 								  " -outfmt '6 qseqid pident length qlen gaps' -out ",
 								  blout1,sep='')
@@ -223,8 +225,10 @@ anib_new <- function(
 					
 				} else if (soft=='hsblastn') {
 					
+					dbase1 <- gsub('//','/',paste(path,'/blast_databases/',comb[2,i],sep=''))
+			
 					blcmd1 <- paste(hsblastn," align -query ",query,
-							" -db ",dbase," -outfmt 6 -out ",blout1,sep='')
+							" -db ",dbase1," -outfmt 6 -out ",blout1,sep='')
 					
 					system(blcmd1,ignore.stderr=T,ignore.stdout=T)
 
@@ -245,7 +249,6 @@ anib_new <- function(
 				# BLAST 2
 							
 				query2<-comb[2,i]
-				subjt2<-comb[1,i]
 				
 				blout2 <- paste('blout2',y,i,sep='.')
 				query  <- paste('query2',y,i,'fasta',sep='.')
@@ -268,8 +271,11 @@ anib_new <- function(
 				writeXStringSet(s3,file=query,format='fasta')
 				
 				if (soft=='blastn') {
+					
+					dbase2 <- gsub('//','/',
+						      paste(path,'/blast_databases/',gsub('.fna','',comb[2,i]),sep=''))
 
-					blcmd2 <- paste(blastn," -query ",query," -subject ",subjt1,
+					blcmd2 <- paste(blastn," -query ",query," -db ",dbase2,
 							 	  " -xdrop_gap_final 150 ",
 							 	  " -outfmt '6 qseqid pident length qlen gaps' -out ",
 								  blout2,sep='')
@@ -291,8 +297,10 @@ anib_new <- function(
 	
 				} else if (soft=='hsblastn') {
 					
+					dbase2 <- gsub('//','/',paste(path,'/blast_databases/',comb[2,i],sep=''))
+				
 					blcmd2 <- paste(hsblastn," align -query ",query,
-							" -db ",dbase," -outfmt 6 -out ",blout2,sep='')
+							" -db ",dbase2," -outfmt 6 -out ",blout2,sep='')
 					
 					system(blcmd2,ignore.stderr=T,ignore.stdout=T)
 
