@@ -252,7 +252,7 @@ anib_new <- function(
 						
 						tab1     <- read.csv(blout1,sep='\t',header=F)
 						tab1[,13] <- tab1[,4]/win
-						ani1     <- mean(tab1[which(tab1[,13]>=cmin & tab1[,3]>=imin),2])
+						ani1     <- mean(tab1[which(tab1[,13]>=cmin & tab1[,3]>=imin),3])
 						
 					} else {
 						
@@ -324,7 +324,7 @@ anib_new <- function(
 						
 						tab2      <- read.csv(blout2,sep='\t',header=F)
 						tab2[,13] <- tab2[,4]/win
-						ani2      <- mean(tab2[which(tab2[,13]>=cmin & tab2[,3]>=imin),2])
+						ani2      <- mean(tab2[which(tab2[,13]>=cmin & tab2[,3]>=imin),3])
 						
 					} else {
 						
