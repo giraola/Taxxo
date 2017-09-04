@@ -15,7 +15,7 @@
 #' @keywords ANI species blastn
 #' @export
 #' @examples
-#' anib(path='.',pattern='.fna',reference='all',outdir='anib_result',proc=2)
+#' anib_new(path='.',pattern='.fna',reference='all',outdir='anib_result',proc=2)
 
 anib_new <- function(
 
@@ -198,27 +198,50 @@ anib_new <- function(
 				names(s3) <- fragms
 				
 				writeXStringSet(s3,file=query,format='fasta')
+				
+				if (soft=='blastn') {
 
-				blcmd1<-paste(blastn," -query ",query," -subject ",subjt1,
-							  " -xdrop_gap_final 150 ",
-							  " -outfmt '6 qseqid pident length qlen gaps' -out ",
-							  blout1,sep='')
+					blcmd1 <- paste(blastn," -query ",query," -subject ",subjt1,
+								  " -xdrop_gap_final 150 ",
+								  " -outfmt '6 qseqid pident length qlen gaps' -out ",
+								  blout1,sep='')
 						 
-				system(blcmd1,ignore.stderr=T,ignore.stdout=T)
+					system(blcmd1,ignore.stderr=T,ignore.stdout=T)
 			
-				if (file.info(blout1)$size>0){
+					if (file.info(blout1)$size>0) {
 				
-					tab1     <- read.csv(blout1,sep='\t',header=F)
-					tab1[,6] <- (tab1[,3]-tab1[,5])/tab1[,4]
-					ani1     <- mean(tab1[which(tab1[,6]>=cmin & tab1[,2]>=imin),2])
+						tab1     <- read.csv(blout1,sep='\t',header=F)
+						tab1[,6] <- (tab1[,3]-tab1[,5])/tab1[,4]
+						ani1     <- mean(tab1[which(tab1[,6]>=cmin & tab1[,2]>=imin),2])
 				
-				} else {
+					} else {
 				
-					ani1 <- 0
+						ani1 <- 0
+					}
+			
+					system(paste('rm -rf',blout1,query))
+					
+				} else if (soft=='hsblastn') {
+					
+					blcmd1 <- paste(hsblastn," align -query ",query,
+							" -db ",dbase," -outfmt 6 -out ",blout1,sep='')
+					
+					system(blcmd1,ignore.stderr=T,ignore.stdout=T)
+
+					if (file.info(blout1)$size>0) {
+						
+						tab1     <- read.csv(blout1,sep='\t',header=F)
+						tab1[,13] <- tab1[,4]/win
+						ani1     <- mean(tab1[which(tab1[,13]>=cmin & tab1[,3]>=imin),2])
+						
+					} else {
+						
+						ani1 <- 0
+					}
+					
+					system(paste('rm -rf',blout1,query))
 				}
-			
-				system(paste('rm -rf',blout1,query))
-				
+
 				# BLAST 2
 							
 				query2<-comb[2,i]
