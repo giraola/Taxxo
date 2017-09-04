@@ -266,26 +266,49 @@ anib_new <- function(
 				names(s3) <- fragms
 				
 				writeXStringSet(s3,file=query,format='fasta')
+				
+				if (soft=='blastn') {
 
-				blcmd2 <- paste(blastn," -query ",query," -subject ",subjt1,
-						 	  " -xdrop_gap_final 150 ",
-						 	  " -outfmt '6 qseqid pident length qlen gaps' -out ",
-							  blout2,sep='')
+					blcmd2 <- paste(blastn," -query ",query," -subject ",subjt1,
+							 	  " -xdrop_gap_final 150 ",
+							 	  " -outfmt '6 qseqid pident length qlen gaps' -out ",
+								  blout2,sep='')
 
-				system(blcmd2,ignore.stderr=T,ignore.stdout=T)
+					system(blcmd2,ignore.stderr=T,ignore.stdout=T)
 			
-				if (file.info(blout2)$size>0) {
+					if (file.info(blout2)$size>0) {
 				
-					tab2     <- read.csv(blout2,sep='\t',header=F)
-					tab2[,6] <- (tab2[,3]-tab2[,5])/tab2[,4]	
-					ani2     <- mean(tab2[which(tab2[,6]>=cmin & tab2[,2]>=imin),2])
+						tab2     <- read.csv(blout2,sep='\t',header=F)
+						tab2[,6] <- (tab2[,3]-tab2[,5])/tab2[,4]	
+						ani2     <- mean(tab2[which(tab2[,6]>=cmin & tab2[,2]>=imin),2])
 				
-				} else {
+					} else {
 				
-					ani2 <- 0
+						ani2 <- 0
+					}
+			
+					system(paste('rm -rf',blout2,query))
+	
+				} else if (soft=='hsblastn') {
+					
+					blcmd2 <- paste(hsblastn," align -query ",query,
+							" -db ",dbase," -outfmt 6 -out ",blout2,sep='')
+					
+					system(blcmd2,ignore.stderr=T,ignore.stdout=T)
+
+					if (file.info(blout2)$size>0) {
+						
+						tab2      <- read.csv(blout2,sep='\t',header=F)
+						tab2[,13] <- tab2[,4]/win
+						ani2      <- mean(tab2[which(tab2[,13]>=cmin & tab2[,3]>=imin),2])
+						
+					} else {
+						
+						ani2 <- 0
+					}
+					
+					system(paste('rm -rf',blout2,query))
 				}
-			
-				system(paste('rm -rf',blout2,query))
 	
 				# RESULT
 
