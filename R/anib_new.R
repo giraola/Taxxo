@@ -45,12 +45,14 @@ anib_new <- function(
 	if (os=='linux'){
 	
 		blastn   <- paste(system.file('blast',package='taxxo'),'/linux/blastn',sep='')
-		hsblastn <- paste(system.file('blast',package='taxxo'),'/linux/hs-blastn',sep='') 
+		hsblastn <- paste(system.file('blast',package='taxxo'),'/linux/hs-blastn',sep='')
+		mkbldb   <- paste(system.file('blast',package='taxxo'),'/linux/makeblastdb',sep='')
 		
 	} else if (os=='darwin'){
 		
 		blastn   <- paste(system.file('blast',package='taxxo'),'/darwin/blastn',sep='')
 		hsblastn <- paste(system.file('blast',package='taxxo'),'/darwin/hs-blastn',sep='')
+		mkbldb   <- paste(system.file('blast',package='taxxo'),'/darwin/makeblastdb',sep='')
 
 	} else {
 		
@@ -112,7 +114,6 @@ anib_new <- function(
 		return(l)
 	}
 	
-
 	# List genomes #
 	
 	genomes <- gsub('//','/',list.files(path=path,pattern=pattern,full.names=T))
@@ -123,6 +124,44 @@ anib_new <- function(
 		proc <- length(genomes)
 	}
 	
+	# Make databases #
+	
+	system('mkdir blast_databases')
+	
+	if (soft=='blastn') {
+		
+		setwd('blast_databases')
+		
+		for (g in 1:length(genomes)) {
+			
+			cmd1 <- paste(mkbldb,
+				      ' -in ..',genomes[g],
+				      ' -dbtype nucl ',
+				      ' -title ',g.names[g],
+				      ' -out ',g.names[g],
+				      sep='')
+			
+			system(cmd1,ignore.stderr=T,ignore.stdout=T)
+		}
+		
+		setwd('../')
+		
+	} else if (soft=='hsblastn') {
+		
+		setwd('blast_databases')
+		
+		for (g in 1:length(genomes)) {
+			
+			cmd1 <- paste(hsblastn,' index ..',genomes[g],sep='')
+			
+			system(cmd1,ignore.stderr=T,ignore.stdout=T)
+		}
+		
+	} else {
+		
+		stop('Parameter "soft" is wrongly set.')
+	}
+			
 	# ANIb parallel #
 	
 	aniparallel <- function(y) {
