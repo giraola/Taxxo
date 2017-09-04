@@ -8,6 +8,7 @@
 #' @param reference is a genome name used to compare one vs. the rest. If set to 'all' (default), all vs. all is computed.
 #' @param win is the size of the fragments to compare (default = 1000).
 #' @param winst is the step size to generate fragments (default = 200).
+#' @param soft is the software used for alignment: 'blastn' (default) or 'hs-blastn'.
 #' @param imin is the identity cut-off to report a hit (defualt = 70).
 #' @param cmin is the alignment query coverage cut-off to report a hit (defaut = 0.7).
 
@@ -21,6 +22,7 @@ anib_new <- function(
 			pattern='.fna',
 			reference='all',
 			path='.',
+			soft='blastn',
 			
 			win=1000,
 			winst=200,
@@ -42,11 +44,13 @@ anib_new <- function(
 	
 	if (os=='linux'){
 	
-		blastn <- paste(system.file('blast',package='taxxo'),'/linux/blastn',sep='')
+		blastn   <- paste(system.file('blast',package='taxxo'),'/linux/blastn',sep='')
+		hsblastn <- paste(system.file('blast',package='taxxo'),'/linux/hs-blastn',sep='') 
 		
 	} else if (os=='darwin'){
 		
-		blastn <- paste(system.file('blast',package='taxxo'),'/darwin/blastn',sep='')
+		blastn   <- paste(system.file('blast',package='taxxo'),'/darwin/blastn',sep='')
+		hsblastn <- paste(system.file('blast',package='taxxo'),'/darwin/hs-blastn',sep='')
 
 	} else {
 		
@@ -117,7 +121,21 @@ anib_new <- function(
 		
 		proc <- length(genomes)
 	}
-
+	
+	# Choose software #
+	
+	if (soft=='hs-blast') {
+		
+		bls <- hsblastn
+	
+	} else if (soft=='blastn') {
+		
+		bls <- blastn
+		
+	} else {
+		
+		stop('Parameter "soft" must be set to "blastn" or "hs-blastn"'.)
+	}
 
 	# ANIb parallel #
 	
