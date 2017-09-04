@@ -135,7 +135,7 @@ anib_new <- function(
 		for (g in 1:length(genomes)) {
 			
 			cmd1 <- paste(mkbldb,
-				      ' -in ..',genomes[g],
+				      ' -in .',genomes[g],
 				      ' -dbtype nucl ',
 				      ' -title ',g.names[g],
 				      ' -out ',g.names[g],
@@ -152,7 +152,7 @@ anib_new <- function(
 		
 		for (g in 1:length(genomes)) {
 			
-			cmd1 <- paste(hsblastn,' index ..',genomes[g],sep='')
+			cmd1 <- paste(hsblastn,' index .',genomes[g],sep='')
 			
 			system(cmd1,ignore.stderr=T,ignore.stdout=T)
 		}
