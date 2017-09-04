@@ -157,6 +157,8 @@ anib_new <- function(
 			system(cmd1,ignore.stderr=T,ignore.stdout=T)
 		}
 		
+		system('mv ../*.header ../*.sa ../*.sequence ../*.bwt .')
+		
 	} else {
 		
 		stop('Parameter "soft" is wrongly set.')
