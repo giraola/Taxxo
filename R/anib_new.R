@@ -220,7 +220,7 @@ anib_new <- function(
 						      paste(path,'/blast_databases/',gsub('.fna','',comb[2,i]),sep=''))
 
 					blcmd1 <- paste(blastn," -query ",query," -db ",dbase1,
-								  " -xdrop_gap_final 150 ",
+								  " -dust no -max_target_seqs 1",
 								  " -outfmt '6 qseqid pident length qlen gaps' -out ",
 								  blout1,sep='')
 						 
@@ -292,7 +292,7 @@ anib_new <- function(
 						      paste(path,'/blast_databases/',gsub('.fna','',comb[2,i]),sep=''))
 
 					blcmd2 <- paste(blastn," -query ",query," -db ",dbase2,
-							 	  " -xdrop_gap_final 150 ",
+							 	  " -dust no -max_target_seqs 1",
 							 	  " -outfmt '6 qseqid pident length qlen gaps' -out ",
 								  blout2,sep='')
 
