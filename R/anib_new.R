@@ -6,9 +6,9 @@
 #' @param outdir a name for the output directory that will be created for results.
 #' @param proc is the number of threads for parallel computing.
 #' @param reference is a genome name used to compare one vs. the rest. If set to 'all' (default), all vs. all is computed.
-#' @param win is the size of the fragments to compare (default = 1000).
-#' @param winst is the step size to generate fragments (default = 200).
-#' @param imin is the identity cut-off to report a hit (defualt = 70).
+#' @param win is the size of the fragments to compare (default = 1020).
+#' @param winst is the step size to generate fragments (default = 0, no overlap).
+#' @param imin is the identity cut-off to report a hit (defualt = 30).
 #' @param cmin is the alignment query coverage cut-off to report a hit (defaut = 0.7).
 
 #' @keywords ANI species blastn
@@ -124,9 +124,7 @@ anib_new <- function(
 	
 	# Make databases #
 	
-	system('mkdir blast_databases')
-	
-		
+	system('mkdir blast_databases')	
 	setwd('blast_databases')
 		
 	fdatabase <- function(f) {
