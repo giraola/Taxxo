@@ -8,7 +8,6 @@
 #' @param reference is a genome name used to compare one vs. the rest. If set to 'all' (default), all vs. all is computed.
 #' @param win is the size of the fragments to compare (default = 1000).
 #' @param winst is the step size to generate fragments (default = 200).
-#' @param soft is the software used for alignment: 'blastn' (default) or 'hs-blastn'.
 #' @param imin is the identity cut-off to report a hit (defualt = 70).
 #' @param cmin is the alignment query coverage cut-off to report a hit (defaut = 0.7).
 
@@ -22,11 +21,10 @@ anib_new <- function(
 			pattern='.fna',
 			reference='all',
 			path='.',
-			soft='blastn',
-			
-			win=1000,
-			winst=200,
-			imin=70,
+	
+			win=1020,
+			winst=0,
+			imin=30,
 			cmin=0.7,
 			
 			outdir='anib_result',
@@ -45,13 +43,11 @@ anib_new <- function(
 	if (os=='linux'){
 	
 		blastn   <- paste(system.file('blast',package='taxxo'),'/linux/blastn',sep='')
-		hsblastn <- paste(system.file('blast',package='taxxo'),'/linux/hs-blastn',sep='')
 		mkbldb   <- paste(system.file('blast',package='taxxo'),'/linux/makeblastdb',sep='')
 		
 	} else if (os=='darwin'){
 		
 		blastn   <- paste(system.file('blast',package='taxxo'),'/darwin/blastn',sep='')
-		hsblastn <- paste(system.file('blast',package='taxxo'),'/darwin/hs-blastn',sep='')
 		mkbldb   <- paste(system.file('blast',package='taxxo'),'/darwin/makeblastdb',sep='')
 
 	} else {
@@ -214,53 +210,30 @@ anib_new <- function(
 				
 				writeXStringSet(s3,file=query,format='fasta')
 				
-				if (soft=='blastn') {
 							
-					dbase1 <- gsub('//','/',
-						      paste(path,'/blast_databases/',gsub('.fna','',comb[2,i]),sep=''))
+				dbase1 <- gsub('//','/',
+					      paste(path,'/blast_databases/',gsub('.fna','',comb[2,i]),sep=''))
 
-					blcmd1 <- paste(blastn," -query ",query," -db ",dbase1,
-								  " -dust no -max_target_seqs 1",
-								  " -outfmt '6 qseqid pident length qlen gaps' -out ",
-								  blout1,sep='')
+				blcmd1 <- paste(blastn," -query ",query," -db ",dbase1,
+							  " -max_target_seqs 1 -penalty -1 -xdrop_gap_final 150",
+							  " -outfmt '6 qseqid pident length qlen gaps' -out ",
+							  blout1,sep='')
 						 
-					system(blcmd1,ignore.stderr=T,ignore.stdout=T)
+				system(blcmd1,ignore.stderr=T,ignore.stdout=T)
 			
-					if (file.info(blout1)$size>0) {
+				if (file.info(blout1)$size>0) {
 				
-						tab1     <- read.csv(blout1,sep='\t',header=F)
-						tab1[,6] <- (tab1[,3]-tab1[,5])/tab1[,4]
-						ani1     <- mean(tab1[which(tab1[,6]>=cmin & tab1[,2]>=imin),2])
+					tab1     <- read.csv(blout1,sep='\t',header=F)
+					tab1[,6] <- (tab1[,3]-tab1[,5])/tab1[,4]
+					ani1     <- mean(tab1[which(tab1[,6]>=cmin & tab1[,2]>=imin),2])
 				
-					} else {
+				} else {
 				
-						ani1 <- 0
-					}
-			
-					system(paste('rm -rf',blout1,query))
-					
-				} else if (soft=='hsblastn') {
-					
-					dbase1 <- gsub('//','/',paste(path,'/blast_databases/',comb[2,i],sep=''))
-			
-					blcmd1 <- paste(hsblastn," align -query ",query,
-							" -db ",dbase1," -outfmt 6 -out ",blout1,sep='')
-					
-					system(blcmd1,ignore.stderr=T,ignore.stdout=T)
-
-					if (file.info(blout1)$size>0) {
-						
-						tab1     <- read.csv(blout1,sep='\t',header=F)
-						tab1[,13] <- tab1[,4]/win
-						ani1     <- mean(tab1[which(tab1[,13]>=cmin & tab1[,3]>=imin),3])
-						
-					} else {
-						
-						ani1 <- 0
-					}
-					
-					system(paste('rm -rf',blout1,query))
+					ani1 <- 0
 				}
+			
+				system(paste('rm -rf',blout1,query))
+			
 
 				# BLAST 2
 							
@@ -286,53 +259,29 @@ anib_new <- function(
 				
 				writeXStringSet(s3,file=query,format='fasta')
 				
-				if (soft=='blastn') {
 					
-					dbase2 <- gsub('//','/',
-						      paste(path,'/blast_databases/',gsub('.fna','',comb[2,i]),sep=''))
+				dbase2 <- gsub('//','/',
+					      paste(path,'/blast_databases/',gsub('.fna','',comb[2,i]),sep=''))
 
-					blcmd2 <- paste(blastn," -query ",query," -db ",dbase2,
-							 	  " -dust no -max_target_seqs 1",
-							 	  " -outfmt '6 qseqid pident length qlen gaps' -out ",
-								  blout2,sep='')
+				blcmd2 <- paste(blastn," -query ",query," -db ",dbase2,
+						 	  " -max_target_seqs 1 -penalty -1 -xdrop_gap_final 150",
+						 	  " -outfmt '6 qseqid pident length qlen gaps' -out ",
+							  blout2,sep='')
 
-					system(blcmd2,ignore.stderr=T,ignore.stdout=T)
+				system(blcmd2,ignore.stderr=T,ignore.stdout=T)
+		
+				if (file.info(blout2)$size>0) {
 			
-					if (file.info(blout2)$size>0) {
+					tab2     <- read.csv(blout2,sep='\t',header=F)
+					tab2[,6] <- (tab2[,3]-tab2[,5])/tab2[,4]	
+					ani2     <- mean(tab2[which(tab2[,6]>=cmin & tab2[,2]>=imin),2])
 				
-						tab2     <- read.csv(blout2,sep='\t',header=F)
-						tab2[,6] <- (tab2[,3]-tab2[,5])/tab2[,4]	
-						ani2     <- mean(tab2[which(tab2[,6]>=cmin & tab2[,2]>=imin),2])
+				} else {
 				
-					} else {
-				
-						ani2 <- 0
-					}
-			
-					system(paste('rm -rf',blout2,query))
-	
-				} else if (soft=='hsblastn') {
-					
-					dbase2 <- gsub('//','/',paste(path,'/blast_databases/',comb[2,i],sep=''))
-				
-					blcmd2 <- paste(hsblastn," align -query ",query,
-							" -db ",dbase2," -outfmt 6 -out ",blout2,sep='')
-					
-					system(blcmd2,ignore.stderr=T,ignore.stdout=T)
-
-					if (file.info(blout2)$size>0) {
-						
-						tab2      <- read.csv(blout2,sep='\t',header=F)
-						tab2[,13] <- tab2[,4]/win
-						ani2      <- mean(tab2[which(tab2[,13]>=cmin & tab2[,3]>=imin),3])
-						
-					} else {
-						
-						ani2 <- 0
-					}
-					
-					system(paste('rm -rf',blout2,query))
+					ani2 <- 0
 				}
+			
+				system(paste('rm -rf',blout2,query))
 	
 				# RESULT
 
