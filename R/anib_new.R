@@ -126,52 +126,28 @@ anib_new <- function(
 	
 	system('mkdir blast_databases')
 	
-	if (soft=='blastn') {
 		
-		setwd('blast_databases')
+	setwd('blast_databases')
 		
-		fdatabase <- function(f) {
+	fdatabase <- function(f) {
 			
-			cmd1 <- paste(mkbldb,
-				      ' -in .',genomes[f],
-				      ' -dbtype nucl ',
-				      ' -title ',g.names[f],
-				      ' -out ',g.names[f],
-				      sep='')
+		cmd1 <- paste(mkbldb,
+			      ' -in .',genomes[f],
+			      ' -dbtype nucl ',
+			      ' -title ',g.names[f],
+			      ' -out ',g.names[f],
+			      sep='')
 			
-			system(cmd1,ignore.stderr=T,ignore.stdout=T)
+		system(cmd1,ignore.stderr=T,ignore.stdout=T)
 			
-			}
+	}
 		
-		mclapply(1:length(genomes),fdatabase,mc.cores=proc) -> aux1
+	mclapply(1:length(genomes),fdatabase,mc.cores=proc) -> aux1
 		
-		rm(aux1)
+	rm(aux1)
 		
-		setwd('../')
+	setwd('../')
 		
-	} else if (soft=='hsblastn') {
-		
-		setwd('blast_databases')
-		
-		fdatabase <- function(f) {
-			
-			cmd2 <- paste(hsblastn,' index .',genomes[f],sep='')
-			
-			system(cmd2,ignore.stderr=T,ignore.stdout=T)
-			
-			}
-		
-		mclapply(1:length(genomes),fdatabase,mc.cores=proc) -> aux2
-		
-		system('mv ../*.header ../*.sa ../*.sequence ../*.bwt .')
-		
-		rm(aux2)
-		
-		setwd('../')
-		
-	} else {
-		
-		stop('Parameter "soft" is wrongly set.')
 	}
 			
 	# ANIb parallel #
