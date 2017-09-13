@@ -137,14 +137,13 @@ anib_new <- function(
 			      sep='')
 			
 		system(cmd1,ignore.stderr=T,ignore.stdout=T)
+	}
 	
 		mclapply(1:length(genomes),fdatabase,mc.cores=proc) -> aux1
 		
 		rm(aux1)
 		
 		setwd('../')
-	}
-
 			
 	# ANIb parallel #
 	
