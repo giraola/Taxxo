@@ -23,7 +23,6 @@ anib_new <- function(
 			path='.',
 	
 			win=1020,
-			winst=0,
 			imin=30,
 			cmin=0.7,
 			
@@ -78,40 +77,22 @@ anib_new <- function(
 	spliter <- function(
 	
 				w=win,
-				s=winst,
 				v
 				
 	) {
 	
-		n  <- length(v)
-		x  <- 1
-		x2 <- w
-		o  <- 1
-		l  <- list()
-
-		if ( n>w & x2<=(n-s) ) {
-
-			while ( x2<=(n-s) ) {
-	
-				ini    <- x
-				fin    <- x2
-				l[[o]] <- v[ini:fin]
-				x      <- x+s
-				x2     <- x2+s
-				o      <- o+1
-
-			}
-
-			l[[o]] <- v[(fin+1):n]
+		n   <- length(v)
+		n/w -> ratio
+		
+		if (ratio >= 1) {
 			
-		} else {
-						
-			l[[1]] <- v
+			round(ratio,digits=0) -> m
+			
+			s <- split(v,cut(seq_along(v),m,labels=F))
+			return(s)
 		}
-	
-		return(l)
 	}
-	
+		
 	# List genomes #
 	
 	genomes <- gsub('//','/',list.files(path=path,pattern=pattern,full.names=T))
